@@ -1,0 +1,613 @@
+{% extends 'base.html' %}
+{% block title %}{{ profile.name|default:"Harshit Tiwari" }} — Portfolio{% endblock %}
+
+{% block extra_css %}
+<style>
+  /* ── HERO ── */
+  .hero-section {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+    background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(108,99,255,0.12) 0%, transparent 70%);
+  }
+  .hero-section::before {
+    content: '';
+    position: absolute; inset: 0;
+    background-image: linear-gradient(rgba(108,99,255,0.04) 1px, transparent 1px),
+                      linear-gradient(90deg, rgba(108,99,255,0.04) 1px, transparent 1px);
+    background-size: 60px 60px;
+  }
+  .hero-avatar {
+    width: 280px; height: 280px;
+    border-radius: 40% 60% 60% 40% / 60% 30% 70% 40%;
+    object-fit: cover;
+    animation: morphShape 8s ease-in-out infinite;
+    border: 3px solid rgba(108,99,255,0.4);
+  }
+  @keyframes morphShape {
+    0%,100%{ border-radius:40% 60% 60% 40%/60% 30% 70% 40%; }
+    25%    { border-radius:60% 40% 30% 70%/50% 60% 40% 50%; }
+    50%    { border-radius:30% 70% 70% 30%/40% 50% 60% 50%; }
+    75%    { border-radius:50% 50% 30% 70%/30% 60% 40% 70%; }
+  }
+  .avatar-ring { position:relative; display:inline-block; }
+  .avatar-ring::before,.avatar-ring::after {
+    content:''; position:absolute; border-radius:50%;
+    animation: pulse-ring 3s ease-in-out infinite;
+  }
+  .avatar-ring::before { inset:-15px; border:2px solid rgba(108,99,255,0.3); }
+  .avatar-ring::after  { inset:-30px; border:1px solid rgba(255,101,132,0.2); animation-delay:1s; }
+  @keyframes pulse-ring {
+    0%,100%{ opacity:1; transform:scale(1); }
+    50%    { opacity:0.4; transform:scale(1.05); }
+  }
+  .hero-title {
+    font-size: clamp(2.2rem, 5vw, 4rem);
+    line-height: 1.1;
+    animation: fadeUp 0.8s ease-out 0.2s both;
+  }
+  @keyframes fadeDown { from{opacity:0;transform:translateY(-20px)} to{opacity:1;transform:translateY(0)} }
+  @keyframes fadeUp   { from{opacity:0;transform:translateY(30px)}  to{opacity:1;transform:translateY(0)} }
+
+  .hero-badge {
+    background: rgba(108,99,255,0.15);
+    border: 1px solid rgba(108,99,255,0.3);
+    border-radius: 50px;
+    padding: 7px 18px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 1.2rem;
+    animation: fadeDown 0.8s ease-out;
+  }
+
+  /* ── RESUME CARD in hero ── */
+  .resume-hero-card {
+    background: linear-gradient(135deg, rgba(108,99,255,0.12), rgba(255,101,132,0.07));
+    border: 1px solid rgba(108,99,255,0.35);
+    border-radius: 16px;
+    padding: 1rem 1.2rem;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    transition: all 0.3s;
+    text-decoration: none;
+    margin-top: 1rem;
+  }
+  .resume-hero-card:hover {
+    border-color: var(--primary);
+    transform: translateY(-3px);
+    box-shadow: 0 10px 30px rgba(108,99,255,0.25);
+  }
+  .resume-hero-card .ricon {
+    width: 44px; height: 44px;
+    background: linear-gradient(135deg, var(--primary), var(--accent));
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    font-size: 1.2rem; color: #fff;
+  }
+
+  /* ── STAT CARDS ── */
+  .stat-card {
+    background: linear-gradient(135deg, rgba(108,99,255,0.1), rgba(255,101,132,0.05));
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 1.4rem 1rem;
+    text-align: center;
+    transition: all 0.3s;
+  }
+  .stat-card:hover { transform:translateY(-5px); border-color:var(--primary); }
+  .stat-number {
+    font-family: 'Syne', sans-serif;
+    font-size: 2.2rem; font-weight: 800;
+    background: linear-gradient(135deg, var(--primary), var(--accent));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  }
+
+  /* ── SKILLS PREVIEW ── */
+  .skill-pill-home {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 1rem 1.2rem;
+    transition: all 0.3s;
+  }
+  .skill-pill-home:hover { border-color: var(--primary); transform: translateX(4px); }
+
+  /* ── PROJECT CARDS ── */
+  .proj-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.4,0,0.2,1);
+    cursor: pointer;
+  }
+  .proj-card:hover { transform:translateY(-8px); border-color:var(--primary); box-shadow:0 25px 50px rgba(108,99,255,0.2); }
+  .proj-img {
+    height: 200px; width: 100%; object-fit: cover;
+    transition: transform 0.4s;
+  }
+  .proj-card:hover .proj-img { transform: scale(1.05); }
+  .proj-placeholder {
+    height: 200px;
+    background: linear-gradient(135deg, rgba(108,99,255,0.18), rgba(255,101,132,0.1));
+    display:flex; align-items:center; justify-content:center;
+    font-size: 3.5rem; color: var(--primary);
+  }
+  .proj-overlay {
+    position:absolute; inset:0;
+    background:linear-gradient(to top, rgba(10,10,15,0.95), transparent 60%);
+    opacity:0; transition:opacity 0.3s;
+    display:flex; align-items:flex-end; padding:1rem;
+  }
+  .proj-card:hover .proj-overlay { opacity:1; }
+  .proj-img-wrap { position:relative; overflow:hidden; }
+
+  /* ── EXPERIENCE ── */
+  .exp-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 1.4rem 1.6rem;
+    transition: all 0.3s;
+    position:relative; overflow:hidden;
+  }
+  .exp-card::before {
+    content:'';
+    position:absolute; left:0; top:0; bottom:0; width:3px;
+    background:linear-gradient(180deg,var(--primary),var(--accent));
+    transform:scaleY(0); transition:transform 0.3s; transform-origin:top;
+  }
+  .exp-card:hover::before { transform:scaleY(1); }
+  .exp-card:hover { border-color:var(--primary); transform:translateX(4px); }
+
+  /* ── SERVICE CARDS ── */
+  .service-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 1.8rem;
+    transition: all 0.4s;
+    position:relative; overflow:hidden;
+  }
+  .service-card::before {
+    content:''; position:absolute;
+    top:0; left:0; right:0; height:3px;
+    background:linear-gradient(90deg,var(--primary),var(--accent));
+    transform:scaleX(0); transition:transform 0.4s;
+  }
+  .service-card:hover::before { transform:scaleX(1); }
+  .service-card:hover { transform:translateY(-8px); border-color:var(--primary); }
+  .service-icon {
+    width:56px; height:56px;
+    background:linear-gradient(135deg,rgba(108,99,255,0.2),rgba(255,101,132,0.1));
+    border-radius:14px;
+    display:flex; align-items:center; justify-content:center;
+    font-size:1.4rem; color:var(--primary); margin-bottom:1rem;
+  }
+
+  /* ── TESTIMONIALS ── */
+  .testimonial-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 2rem;
+  }
+  .quote-icon { font-size:3rem; color:rgba(108,99,255,0.2); line-height:1; }
+  .stars { color:#FFD700; }
+
+  /* ── FRESHER ── */
+  .fresher-badge {
+    display:inline-flex; align-items:center; gap:6px;
+    background:linear-gradient(135deg,rgba(0,200,83,0.12),rgba(0,230,118,0.06));
+    border:1px solid rgba(0,200,83,0.3);
+    border-radius:50px; padding:5px 16px;
+    font-size:0.82rem; font-weight:600; color:#00C853;
+  }
+
+  /* ── PROJECT DETAIL MODAL ── */
+  .modal-content {
+    background: var(--card-bg) !important;
+    border: 1px solid var(--border) !important;
+    border-radius: 20px !important;
+  }
+  .modal-header { border-bottom: 1px solid var(--border) !important; }
+  .modal-footer { border-top: 1px solid var(--border) !important; }
+  .modal-backdrop.show { opacity: 0.7 !important; }
+</style>
+{% endblock %}
+
+{% block content %}
+
+<!-- ══════════════════ HERO ══════════════════ -->
+<section class="hero-section">
+  <div class="container py-5">
+    <div class="row align-items-center gy-5">
+
+      <!-- LEFT: text -->
+      <div class="col-lg-6" style="animation:fadeUp 0.8s ease-out both">
+        <div class="hero-badge">
+          <span class="rounded-circle bg-success" style="width:8px;height:8px;display:inline-block"></span>
+          <span style="color:var(--text-muted);font-size:0.85rem;font-weight:500">Available for work</span>
+        </div>
+
+        <h1 class="hero-title fw-bold mb-2">
+          Hi, I'm <span class="gradient-text">{{ profile.name|default:"Harshit Tiwari" }}</span>
+        </h1>
+        <h4 class="mb-3" style="color:var(--text-muted);font-weight:400">
+          <span id="typed-text">{{ profile.title|default:"Full Stack Developer" }}</span>
+        </h4>
+        <p class="mb-4" style="color:var(--text-muted);max-width:480px;line-height:1.85;font-size:1rem">
+          {% if profile %}{{ profile.tagline|default:profile.bio|truncatewords:28 }}{% else %}Welcome to my portfolio. Add your profile from the admin panel.{% endif %}
+        </p>
+
+        <!-- CTA buttons -->
+        <div class="d-flex flex-wrap gap-3 mb-3">
+          <a href="{% url 'projects' %}" class="btn btn-primary px-4 py-2">
+            <i class="bi bi-grid-3x3-gap me-2"></i>View Projects
+          </a>
+          <a href="{% url 'contact' %}" class="btn btn-outline-primary px-4 py-2">
+            <i class="bi bi-send me-2"></i>Hire Me
+          </a>
+        </div>
+
+        <!-- Resume card — only shown when resume is uploaded -->
+        {% if profile and profile.resume %}
+        <div class="d-flex gap-2 flex-wrap mt-1">
+          <a href="{{ profile.resume.url }}" class="resume-hero-card" target="_blank" rel="noopener" style="flex:1;min-width:200px">
+            <div class="ricon"><i class="bi bi-file-earmark-person-fill"></i></div>
+            <div>
+              <div class="fw-bold" style="color:#E8E8F0;font-size:0.9rem">View My Resume</div>
+              <div style="color:var(--text-muted);font-size:0.75rem">Opens in new tab</div>
+            </div>
+            <i class="bi bi-box-arrow-up-right ms-auto" style="color:var(--primary)"></i>
+          </a>
+          <a href="{{ profile.resume.url }}" class="resume-hero-card text-center justify-content-center" download style="padding:1rem;min-width:56px">
+            <div>
+              <i class="bi bi-download" style="color:var(--primary);font-size:1.2rem"></i>
+              <div style="color:var(--text-muted);font-size:0.7rem;margin-top:3px">PDF</div>
+            </div>
+          </a>
+        </div>
+        {% endif %}
+
+        <!-- Social links -->
+        {% if profile %}
+        <div class="d-flex gap-3 mt-3">
+          {% if profile.github %}<a href="{{ profile.github }}" style="color:var(--text-muted);text-decoration:none;transition:color 0.2s" class="social-icon" target="_blank"><i class="bi bi-github fs-5"></i></a>{% endif %}
+          {% if profile.linkedin %}<a href="{{ profile.linkedin }}" style="color:var(--text-muted);text-decoration:none;transition:color 0.2s" class="social-icon" target="_blank"><i class="bi bi-linkedin fs-5"></i></a>{% endif %}
+          {% if profile.twitter %}<a href="{{ profile.twitter }}" style="color:var(--text-muted);text-decoration:none;transition:color 0.2s" class="social-icon" target="_blank"><i class="bi bi-twitter-x fs-5"></i></a>{% endif %}
+        </div>
+        {% endif %}
+      </div>
+
+      <!-- RIGHT: avatar -->
+      <div class="col-lg-6 text-center" data-aos="fade-left">
+        <div class="position-relative d-inline-block">
+          {% if profile and profile.avatar %}
+            <div class="avatar-ring floating">
+              <img src="{{ profile.avatar.url }}" class="hero-avatar" alt="{{ profile.name }}">
+            </div>
+          {% else %}
+            <div class="avatar-ring floating">
+              <div class="hero-avatar d-flex align-items-center justify-content-center" style="background:linear-gradient(135deg,rgba(108,99,255,0.3),rgba(255,101,132,0.2))">
+                <i class="bi bi-person-fill" style="font-size:7rem;color:var(--primary);opacity:0.8"></i>
+              </div>
+            </div>
+          {% endif %}
+          <div class="position-absolute" style="top:-20px;right:-20px" data-aos="zoom-in" data-aos-delay="400">
+            <div class="rounded-3 px-3 py-2 shadow-lg" style="background:linear-gradient(135deg,var(--primary),#8B5CF6)">
+              <div class="d-flex align-items-center gap-2">
+                <i class="bi bi-code-slash text-white"></i>
+                <span class="text-white small fw-bold">Full Stack</span>
+              </div>
+            </div>
+          </div>
+          <div class="position-absolute" style="bottom:0px;left:-20px" data-aos="zoom-in" data-aos-delay="600">
+            <div class="rounded-3 px-3 py-2 shadow-lg" style="background:linear-gradient(135deg,rgba(255,101,132,0.9),rgba(255,150,100,0.9))">
+              <div class="d-flex align-items-center gap-2">
+                <i class="bi bi-star-fill text-white"></i>
+                <span class="text-white small fw-bold">Creative Dev</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════ STATS ══════════════════ -->
+{% if profile %}
+<section class="py-4" style="background:rgba(108,99,255,0.03);border-top:1px solid var(--border);border-bottom:1px solid var(--border)">
+  <div class="container">
+    <div class="row g-3 justify-content-center">
+      <div class="col-6 col-md-3" data-aos="zoom-in" data-aos-delay="0">
+        <div class="stat-card"><div class="stat-number" data-count="{{ profile.years_experience }}">0</div><div class="small" style="color:var(--text-muted)">Years Exp.</div></div>
+      </div>
+      <div class="col-6 col-md-3" data-aos="zoom-in" data-aos-delay="100">
+        <div class="stat-card"><div class="stat-number" data-count="{{ profile.projects_done }}">0</div><div class="small" style="color:var(--text-muted)">Projects Done</div></div>
+      </div>
+      <div class="col-6 col-md-3" data-aos="zoom-in" data-aos-delay="200">
+        <div class="stat-card"><div class="stat-number" data-count="{{ profile.clients }}">0</div><div class="small" style="color:var(--text-muted)">Happy Clients</div></div>
+      </div>
+      <div class="col-6 col-md-3" data-aos="zoom-in" data-aos-delay="300">
+        <div class="stat-card"><div class="stat-number">∞</div><div class="small" style="color:var(--text-muted)">Cups of Coffee</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endif %}
+
+<!-- ══════════════════ SKILLS PREVIEW ══════════════════ -->
+{% if skills %}
+<section class="py-5" style="background:rgba(108,99,255,0.03);border-top:1px solid var(--border)">
+  <div class="container">
+    <div class="text-center mb-5" data-aos="fade-up">
+      <div class="section-badge">Expertise</div>
+      <h2 class="display-6 fw-bold">My <span class="gradient-text">Skills</span></h2>
+      <div class="divider-line"></div>
+    </div>
+    <div class="row g-3">
+      {% for skill in skills %}
+      <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="{{ forloop.counter0 }}0">
+        <div class="skill-pill-home">
+          <div class="d-flex align-items-center justify-content-between mb-2">
+            <div class="d-flex align-items-center gap-2">
+              {% if skill.icon %}<i class="bi {{ skill.icon }}" style="color:var(--primary);font-size:1.1rem"></i>{% endif %}
+              <span class="fw-600 small">{{ skill.name }}</span>
+            </div>
+            <span class="fw-bold small" style="color:var(--primary)">{{ skill.proficiency }}%</span>
+          </div>
+          <div class="skill-bar">
+            <div class="progress"><div class="progress-bar" data-value="{{ skill.proficiency }}"></div></div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    <div class="text-center mt-4" data-aos="fade-up">
+      <a href="{% url 'skills' %}" class="btn btn-outline-primary px-5">All Skills <i class="bi bi-arrow-right ms-1"></i></a>
+    </div>
+  </div>
+</section>
+{% endif %}
+
+<!-- ══════════════════ FEATURED PROJECTS ══════════════════ -->
+{% if featured_projects %}
+<section class="py-5">
+  <div class="container">
+    <div class="text-center mb-5" data-aos="fade-up">
+      <div class="section-badge">Portfolio</div>
+      <h2 class="display-6 fw-bold">Featured <span class="gradient-text">Projects</span></h2>
+      <div class="divider-line"></div>
+      <p class="mt-2" style="color:var(--text-muted)">Click any project card to view full details</p>
+    </div>
+    <div class="row g-4">
+      {% for project in featured_projects %}
+      <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="{{ forloop.counter0 }}00">
+        <div class="proj-card h-100"
+             data-bs-toggle="modal"
+             data-bs-target="#projectModal"
+             data-id="{{ project.pk }}"
+             data-title="{{ project.title }}"
+             data-short="{{ project.short_description }}"
+             data-desc="{{ project.description }}"
+             data-tech="{{ project.tech_stack }}"
+             data-status="{{ project.get_status_display }}"
+             data-demo="{{ project.demo_url }}"
+             data-github="{{ project.github_url }}"
+             {% if project.image %}data-img="{{ project.image.url }}"{% endif %}>
+          <div class="proj-img-wrap">
+            {% if project.image %}
+              <img src="{{ project.image.url }}" class="proj-img" alt="{{ project.title }}">
+            {% else %}
+              <div class="proj-placeholder"><i class="bi bi-code-square"></i></div>
+            {% endif %}
+            <div class="proj-overlay">
+              <span class="btn btn-primary btn-sm"><i class="bi bi-eye me-1"></i>View Details</span>
+            </div>
+          </div>
+          <div class="p-4">
+            <div class="d-flex gap-2 mb-2 flex-wrap">
+              <span class="badge rounded-pill" style="background:{% if project.status == 'completed' %}rgba(0,200,83,0.15);color:#00C853{% elif project.status == 'ongoing' %}rgba(255,171,0,0.15);color:#FFAB00{% else %}rgba(108,99,255,0.15);color:var(--primary){% endif %}">
+                {{ project.get_status_display }}
+              </span>
+              {% if project.featured %}<span class="badge rounded-pill" style="background:rgba(255,101,132,0.15);color:var(--accent)"><i class="bi bi-star-fill me-1"></i>Featured</span>{% endif %}
+            </div>
+            <h5 class="fw-bold mb-2">{{ project.title }}</h5>
+            <p class="small mb-3" style="color:var(--text-muted);line-height:1.65">{{ project.short_description }}</p>
+            <div class="d-flex flex-wrap gap-1">
+              {% for tech in project.get_tech_list %}
+              <span class="tech-badge">{{ tech }}</span>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    <div class="text-center mt-5" data-aos="fade-up">
+      <a href="{% url 'projects' %}" class="btn btn-outline-primary px-5 py-2">View All Projects <i class="bi bi-arrow-right ms-1"></i></a>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECT DETAIL MODAL -->
+<div class="modal fade" id="projectModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header border-0 pb-0">
+        <div>
+          <div id="modalStatus" class="mb-1"></div>
+          <h4 class="modal-title fw-bold" id="modalTitle"></h4>
+        </div>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body pt-2">
+        <div id="modalImgWrap" class="mb-3 rounded-3 overflow-hidden" style="max-height:280px"></div>
+        <p id="modalDesc" style="color:#B0B8C8;line-height:1.85"></p>
+        <div class="mb-3">
+          <div class="small fw-bold mb-2" style="color:var(--text-muted);letter-spacing:1px;text-transform:uppercase">Tech Stack</div>
+          <div id="modalTech" class="d-flex flex-wrap gap-2"></div>
+        </div>
+      </div>
+      <div class="modal-footer border-0 pt-0">
+        <a href="" id="modalFullLink" class="btn btn-outline-secondary btn-sm"><i class="bi bi-arrow-up-right me-1"></i>Full Page</a>
+        <div id="modalLinks" class="d-flex gap-2"></div>
+        <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+{% endif %}
+
+<!-- ══════════════════ SERVICES ══════════════════ -->
+{% if services %}
+<section class="py-5" style="background:rgba(108,99,255,0.03);border-top:1px solid var(--border)">
+  <div class="container">
+    <div class="text-center mb-5" data-aos="fade-up">
+      <div class="section-badge">What I Do</div>
+      <h2 class="display-6 fw-bold">My <span class="gradient-text">Services</span></h2>
+      <div class="divider-line"></div>
+    </div>
+    <div class="row g-4">
+      {% for service in services %}
+      <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="{{ forloop.counter0 }}00">
+        <div class="service-card h-100">
+          <div class="service-icon"><i class="bi {{ service.icon }}"></i></div>
+          <h5 class="fw-bold mb-2">{{ service.title }}</h5>
+          <p style="color:var(--text-muted);font-size:0.9rem;line-height:1.7;margin:0">{{ service.description }}</p>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+<!-- ══════════════════ TESTIMONIALS ══════════════════ -->
+{% if testimonials %}
+<section class="py-5">
+  <div class="container">
+    <div class="text-center mb-5" data-aos="fade-up">
+      <div class="section-badge">Testimonials</div>
+      <h2 class="display-6 fw-bold">What Clients <span class="gradient-text">Say</span></h2>
+      <div class="divider-line"></div>
+    </div>
+    <div id="testimonialCarousel" class="carousel slide" data-bs-ride="carousel">
+      <div class="carousel-inner">
+        {% for t in testimonials %}
+        <div class="carousel-item {% if forloop.first %}active{% endif %}">
+          <div class="row justify-content-center">
+            <div class="col-md-8">
+              <div class="testimonial-card text-center">
+                <div class="quote-icon mb-3">"</div>
+                <p class="lead mb-4" style="color:#D0D0E0;font-style:italic;line-height:1.8">{{ t.message }}</p>
+                <div class="stars mb-3">{% for i in "12345" %}{% if forloop.counter <= t.rating %}★{% else %}☆{% endif %}{% endfor %}</div>
+                {% if t.avatar %}
+                <img src="{{ t.avatar.url }}" class="rounded-circle mb-2" width="56" height="56" alt="{{ t.name }}" style="object-fit:cover;border:2px solid var(--primary)">
+                {% else %}
+                <div class="rounded-circle d-inline-flex align-items-center justify-content-center mb-2" style="width:56px;height:56px;background:linear-gradient(135deg,var(--primary),var(--accent))">
+                  <i class="bi bi-person-fill text-white fs-5"></i>
+                </div>
+                {% endif %}
+                <h6 class="fw-bold mb-0">{{ t.name }}</h6>
+                <small style="color:var(--text-muted)">{{ t.role }}{% if t.company %} · {{ t.company }}{% endif %}</small>
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+      {% if testimonials|length > 1 %}
+      <div class="d-flex justify-content-center gap-2 mt-4">
+        {% for t in testimonials %}<button type="button" data-bs-target="#testimonialCarousel" data-bs-slide-to="{{ forloop.counter0 }}" class="rounded-circle border-0 {% if forloop.first %}bg-primary{% else %}bg-secondary{% endif %}" style="width:10px;height:10px;padding:0"></button>{% endfor %}
+      </div>
+      {% endif %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+<!-- ══════════════════ CTA ══════════════════ -->
+<section class="py-5" style="background:rgba(108,99,255,0.03);border-top:1px solid var(--border)">
+  <div class="container">
+    <div class="card text-center p-5" style="background:linear-gradient(135deg,rgba(108,99,255,0.15),rgba(255,101,132,0.1));border-color:var(--primary)" data-aos="zoom-in">
+      <h2 class="display-6 fw-bold mb-3">Let's Work <span class="gradient-text">Together</span></h2>
+      <p class="mb-4" style="color:var(--text-muted);max-width:500px;margin:0 auto">Have a project in mind? Let's build something amazing together.</p>
+      <div class="d-flex gap-3 justify-content-center flex-wrap">
+        <a href="{% url 'contact' %}" class="btn btn-primary btn-lg px-5"><i class="bi bi-send me-2"></i>Get In Touch</a>
+        {% if profile and profile.resume %}
+        <a href="{{ profile.resume.url }}" class="btn btn-outline-primary btn-lg px-5" target="_blank"><i class="bi bi-file-earmark-person me-2"></i>My Resume</a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+// ── Typewriter ──
+const titles = [
+  "{{ profile.title|default:'Full Stack Developer' }}",
+  "Problem Solver", "Creative Thinker", "Code Artist"
+];
+let ti=0, ci=0, del=false;
+const el = document.getElementById('typed-text');
+function typeWriter() {
+  if(!el) return;
+  const txt = titles[ti];
+  if(!del){ el.textContent=txt.slice(0,ci+1); ci++; if(ci===txt.length){del=true;setTimeout(typeWriter,2000);return;} }
+  else    { el.textContent=txt.slice(0,ci-1); ci--; if(ci===0){del=false;ti=(ti+1)%titles.length;} }
+  setTimeout(typeWriter, del?60:100);
+}
+setTimeout(typeWriter, 1000);
+
+// ── Social icon hover ──
+document.querySelectorAll('.social-icon').forEach(a=>{
+  a.addEventListener('mouseenter',()=>a.style.color='#fff');
+  a.addEventListener('mouseleave',()=>a.style.color='var(--text-muted)');
+});
+
+// ── Project Modal ──
+const modal = document.getElementById('projectModal');
+if(modal){
+  modal.addEventListener('show.bs.modal', e=>{
+    const card = e.relatedTarget;
+    const d = card.dataset;
+    document.getElementById('modalTitle').textContent = d.title;
+    document.getElementById('modalDesc').textContent  = d.desc;
+    document.getElementById('modalFullLink').href = `/projects/${d.id}/`;
+
+    // Status badge
+    const statusColors = {Completed:'rgba(0,200,83,0.15);color:#00C853', Ongoing:'rgba(255,171,0,0.15);color:#FFAB00', Concept:'rgba(108,99,255,0.15);color:var(--primary)'};
+    const sc = statusColors[d.status] || statusColors.Concept;
+    document.getElementById('modalStatus').innerHTML = `<span class="badge rounded-pill" style="background:${sc}">${d.status}</span>`;
+
+    // Image
+    const imgWrap = document.getElementById('modalImgWrap');
+    imgWrap.innerHTML = d.img
+      ? `<img src="${d.img}" style="width:100%;height:280px;object-fit:cover" alt="${d.title}">`
+      : `<div style="height:180px;background:linear-gradient(135deg,rgba(108,99,255,0.2),rgba(255,101,132,0.1));display:flex;align-items:center;justify-content:center;font-size:4rem;color:var(--primary)"><i class="bi bi-code-square"></i></div>`;
+
+    // Tech badges
+    const techWrap = document.getElementById('modalTech');
+    techWrap.innerHTML = d.tech.split(',').map(t=>`<span class="tech-badge">${t.trim()}</span>`).join('');
+
+    // Action links
+    const links = document.getElementById('modalLinks');
+    links.innerHTML = '';
+    if(d.demo) links.innerHTML += `<a href="${d.demo}" class="btn btn-primary btn-sm" target="_blank"><i class="bi bi-box-arrow-up-right me-1"></i>Live Demo</a>`;
+    if(d.github) links.innerHTML += `<a href="${d.github}" class="btn btn-outline-secondary btn-sm" target="_blank"><i class="bi bi-github me-1"></i>GitHub</a>`;
+  });
+}
+</script>
+{% endblock %}

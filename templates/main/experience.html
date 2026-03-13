@@ -1,0 +1,116 @@
+{% extends 'base.html' %}
+{% block title %}Experience — {{ profile.name|default:"Harshit Tiwari" }}{% endblock %}
+
+{% block content %}
+<div class="page-hero">
+  <div class="container text-center" data-aos="fade-up">
+    <div class="section-badge">Career Path</div>
+    <h1 class="display-5 fw-bold">Work <span class="gradient-text">Experience</span></h1>
+    <p style="color:var(--text-muted)">My professional journey so far</p>
+  </div>
+</div>
+
+<section class="py-5">
+  <div class="container">
+    {% if is_fresher %}
+    <div class="row justify-content-center">
+      <div class="col-lg-8">
+        <div class="card p-0 overflow-hidden mb-5" style="border-color:rgba(0,200,83,0.35)" data-aos="zoom-in">
+          <div style="height:4px;background:linear-gradient(90deg,#00C853,#69F0AE,var(--primary))"></div>
+          <div class="p-5 text-center">
+            <div class="mx-auto mb-4 d-flex align-items-center justify-content-center rounded-circle"
+                 style="width:100px;height:100px;background:linear-gradient(135deg,rgba(0,200,83,0.15),rgba(108,99,255,0.1));border:2px solid rgba(0,200,83,0.3)">
+              <i class="bi bi-rocket-takeoff-fill" style="font-size:2.5rem;color:#00C853"></i>
+            </div>
+            <div class="fresher-badge mx-auto mb-3" style="width:fit-content"><i class="bi bi-stars"></i> Fresher — Ready to Launch</div>
+            <h3 class="fw-bold mb-3">The Journey <span class="gradient-text">Begins Now</span> 🚀</h3>
+            <p class="mb-4" style="color:#B0B8C8;max-width:580px;margin:0 auto;line-height:1.9">
+              My professional experience may be brand new, but my <strong style="color:#E8E8F0">passion, preparation, and project portfolio</strong>
+              speak for themselves. I've invested in learning the right skills, building real projects, and developing the mindset to thrive
+              in any professional environment. <br><br>
+              The world's best developers were all freshers once. I'm ready to start my story.
+            </p>
+            <div class="row g-3 text-start mt-2 mb-4">
+              {% for pt in fresher_points_full %}
+              <div class="col-sm-6">
+                <div class="d-flex align-items-center gap-2">
+                  <i class="bi bi-check-circle-fill" style="color:#00C853;flex-shrink:0"></i>
+                  <span style="color:#B0B8C8">{{ pt }}</span>
+                </div>
+              </div>
+              {% endfor %}
+            </div>
+            <a href="{% url 'contact' %}" class="btn btn-primary btn-lg px-5 me-2">
+              <i class="bi bi-send me-2"></i>Give Me My First Opportunity
+            </a>
+            <a href="{% url 'projects' %}" class="btn btn-outline-primary btn-lg px-5">
+              <i class="bi bi-grid-3x3-gap me-2"></i>See My Projects
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% else %}
+    <div class="row justify-content-center">
+      <div class="col-lg-8">
+        <div class="section-badge mb-4">Work History</div>
+        <div class="timeline">
+          {% for exp in experiences %}
+          <div class="timeline-item" data-aos="fade-right" data-aos-delay="{{ forloop.counter0 }}00">
+            <div class="timeline-dot"></div>
+            <div class="card p-4">
+              <div class="d-flex flex-wrap justify-content-between align-items-start mb-2">
+                <div>
+                  <h5 class="fw-bold mb-1">{{ exp.role }}</h5>
+                  <div style="color:var(--primary);font-weight:600">
+                    {% if exp.company_url %}<a href="{{ exp.company_url }}" style="color:var(--primary);text-decoration:none" target="_blank">{{ exp.company }}</a>{% else %}{{ exp.company }}{% endif %}
+                  </div>
+                </div>
+                <div class="text-end">
+                  <span class="badge rounded-pill" style="background:rgba(108,99,255,0.15);color:var(--primary);border:1px solid var(--border)">
+                    {{ exp.start_date|date:"M Y" }} — {% if exp.is_current %}Present{% else %}{{ exp.end_date|date:"M Y" }}{% endif %}
+                  </span>
+                  {% if exp.location %}<div class="small mt-1" style="color:var(--text-muted)"><i class="bi bi-geo-alt me-1"></i>{{ exp.location }}</div>{% endif %}
+                </div>
+              </div>
+              <p class="mb-0 small" style="color:var(--text-muted);line-height:1.75">{{ exp.description }}</p>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+    {% endif %}
+
+    {% if educations %}
+    <div class="row justify-content-center mt-5">
+      <div class="col-lg-8">
+        <div class="section-badge mb-4">Education</div>
+        <div class="row g-4">
+          {% for edu in educations %}
+          <div class="col-12" data-aos="fade-up" data-aos-delay="{{ forloop.counter0 }}00">
+            <div class="card p-4">
+              <div class="d-flex gap-3">
+                <div class="rounded-3 flex-shrink-0 d-flex align-items-center justify-content-center" style="width:52px;height:52px;background:linear-gradient(135deg,rgba(108,99,255,0.2),rgba(255,101,132,0.1))">
+                  <i class="bi bi-mortarboard-fill fs-4" style="color:var(--primary)"></i>
+                </div>
+                <div>
+                  <h5 class="fw-bold mb-1">{{ edu.degree }}</h5>
+                  <div style="color:var(--primary);font-weight:500">{{ edu.institution }}</div>
+                  <div class="small mt-1" style="color:var(--text-muted)">
+                    {{ edu.field }} · {{ edu.start_year }} — {% if edu.is_current %}Present{% else %}{{ edu.end_year }}{% endif %}
+                    {% if edu.gpa %} · GPA: {{ edu.gpa }}{% endif %}
+                  </div>
+                  {% if edu.description %}<p class="small mt-2 mb-0" style="color:var(--text-muted)">{{ edu.description }}</p>{% endif %}
+                </div>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+    {% endif %}
+  </div>
+</section>
+{% endblock %}

@@ -1,0 +1,194 @@
+{% extends 'base.html' %}
+{% block title %}About — {{ profile.name|default:"Portfolio" }}{% endblock %}
+{% block content %}
+
+<div class="page-hero">
+  <div class="container">
+    <div class="text-center" data-aos="fade-up">
+      <div class="section-badge">My Story</div>
+      <h1 class="display-5 fw-bold">About <span class="gradient-text">Me</span></h1>
+      <p style="color:var(--text-muted)">Get to know me better</p>
+    </div>
+  </div>
+</div>
+
+<section class="py-5">
+  <div class="container">
+    <div class="row gy-5 align-items-center">
+      <div class="col-lg-5" data-aos="fade-right">
+        <div class="position-relative">
+          {% if profile.avatar %}
+          <img src="{{ profile.avatar.url }}" class="img-fluid rounded-4 glow-purple" alt="{{ profile.name }}" style="width:100%;max-width:420px">
+          {% else %}
+          <div class="rounded-4 glow-purple d-flex align-items-center justify-content-center" style="height:400px;background:linear-gradient(135deg,rgba(108,99,255,0.2),rgba(255,101,132,0.1))">
+            <i class="bi bi-person-fill" style="font-size:8rem;color:var(--primary);opacity:0.6"></i>
+          </div>
+          {% endif %}
+          <div class="position-absolute" style="bottom:20px;right:-20px;background:var(--card-bg);border:1px solid var(--border);border-radius:16px;padding:1rem 1.5rem" data-aos="zoom-in" data-aos-delay="200">
+            <div class="d-flex align-items-center gap-3">
+              <div class="rounded-circle d-flex align-items-center justify-content-center" style="width:48px;height:48px;background:linear-gradient(135deg,var(--primary),var(--accent))">
+                <i class="bi bi-trophy-fill text-white"></i>
+              </div>
+              <div>
+                <div class="fw-bold">{{ profile.years_experience }}+ Years</div>
+                <div class="small" style="color:var(--text-muted)">Experience</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-7" data-aos="fade-left">
+        <div class="section-badge">Biography</div>
+        <h2 class="display-6 fw-bold mb-3">I'm <span class="gradient-text">{{ profile.name|default:"a Developer" }}</span></h2>
+        <h5 class="mb-4" style="color:var(--text-muted);font-weight:400">{{ profile.title }}</h5>
+        <p style="color:#B0B8C8;line-height:1.9">{{ profile.bio }}</p>
+        <div class="row g-3 mt-2">
+          {% if profile.email %}
+          <div class="col-sm-6">
+            <div class="d-flex align-items-center gap-3">
+              <i class="bi bi-envelope-fill" style="color:var(--primary);font-size:1.2rem"></i>
+              <div><small style="color:var(--text-muted)">Email</small><div class="fw-500 small">{{ profile.email }}</div></div>
+            </div>
+          </div>
+          {% endif %}
+          {% if profile.location %}
+          <div class="col-sm-6">
+            <div class="d-flex align-items-center gap-3">
+              <i class="bi bi-geo-alt-fill" style="color:var(--accent);font-size:1.2rem"></i>
+              <div><small style="color:var(--text-muted)">Location</small><div class="fw-500 small">{{ profile.location }}</div></div>
+            </div>
+          </div>
+          {% endif %}
+          {% if profile.phone %}
+          <div class="col-sm-6">
+            <div class="d-flex align-items-center gap-3">
+              <i class="bi bi-phone-fill" style="color:var(--primary);font-size:1.2rem"></i>
+              <div><small style="color:var(--text-muted)">Phone</small><div class="fw-500 small">{{ profile.phone }}</div></div>
+            </div>
+          </div>
+          {% endif %}
+        </div>
+        <div class="d-flex gap-3 mt-4">
+          <a href="{% url 'contact' %}" class="btn btn-primary px-4"><i class="bi bi-send me-2"></i>Hire Me</a>
+          {% if profile.resume %}<a href="{{ profile.resume.url }}" class="btn btn-outline-primary px-4" target="_blank"><i class="bi bi-download me-2"></i>Resume</a>{% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+{% if experiences %}
+<section class="py-5" style="background:rgba(108,99,255,0.03);border-top:1px solid var(--border)">
+  <div class="container">
+    <div class="text-center mb-5" data-aos="fade-up">
+      <div class="section-badge">Career</div>
+      <h2 class="display-6 fw-bold">Work <span class="gradient-text">Experience</span></h2>
+      <div class="divider-line"></div>
+    </div>
+    <div class="row justify-content-center">
+      <div class="col-lg-8">
+        <div class="timeline">
+          {% for exp in experiences %}
+          <div class="timeline-item" data-aos="fade-right" data-aos-delay="{{ forloop.counter0 }}00">
+            <div class="timeline-dot"></div>
+            <div class="card p-4">
+              <div class="d-flex flex-wrap justify-content-between align-items-start mb-2">
+                <div>
+                  <h5 class="fw-bold mb-1">{{ exp.role }}</h5>
+                  <div style="color:var(--primary);font-weight:600">
+                    {% if exp.company_url %}
+                    <a href="{{ exp.company_url }}" style="color:var(--primary);text-decoration:none" target="_blank">{{ exp.company }}</a>
+                    {% else %}{{ exp.company }}{% endif %}
+                  </div>
+                </div>
+                <div class="text-end">
+                  <span class="badge rounded-pill" style="background:rgba(108,99,255,0.15);color:var(--primary);border:1px solid var(--border)">
+                    {{ exp.start_date|date:"M Y" }} — {% if exp.is_current %}Present{% else %}{{ exp.end_date|date:"M Y" }}{% endif %}
+                  </span>
+                  {% if exp.location %}<div class="small mt-1" style="color:var(--text-muted)"><i class="bi bi-geo-alt me-1"></i>{{ exp.location }}</div>{% endif %}
+                </div>
+              </div>
+              <p class="mb-0 small" style="color:var(--text-muted);line-height:1.7">{{ exp.description }}</p>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endif %}
+
+<!-- EDUCATION -->
+{% if educations %}
+<section class="py-5">
+  <div class="container">
+    <div class="text-center mb-5" data-aos="fade-up">
+      <div class="section-badge">Academic</div>
+      <h2 class="display-6 fw-bold">My <span class="gradient-text">Education</span></h2>
+      <div class="divider-line"></div>
+    </div>
+    <div class="row g-4 justify-content-center">
+      {% for edu in educations %}
+      <div class="col-md-6" data-aos="fade-up" data-aos-delay="{{ forloop.counter0 }}00">
+        <div class="card p-4 h-100">
+          <div class="d-flex gap-3">
+            <div class="rounded-3 flex-shrink-0 d-flex align-items-center justify-content-center" style="width:56px;height:56px;background:linear-gradient(135deg,rgba(108,99,255,0.2),rgba(255,101,132,0.1))">
+              <i class="bi bi-mortarboard-fill fs-4" style="color:var(--primary)"></i>
+            </div>
+            <div>
+              <h5 class="fw-bold mb-1">{{ edu.degree }}</h5>
+              <div style="color:var(--primary);font-weight:500;font-size:0.9rem">{{ edu.institution }}</div>
+              <div class="small mt-1" style="color:var(--text-muted)">
+                {{ edu.field }} · {{ edu.start_year }} — {% if edu.is_current %}Present{% else %}{{ edu.end_year }}{% endif %}
+                {% if edu.gpa %} · GPA: {{ edu.gpa }}{% endif %}
+              </div>
+              {% if edu.description %}<p class="small mt-2 mb-0" style="color:var(--text-muted)">{{ edu.description }}</p>{% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+<!-- CERTIFICATES -->
+{% if certificates %}
+<section class="py-5" style="background:rgba(108,99,255,0.03);border-top:1px solid var(--border)">
+  <div class="container">
+    <div class="text-center mb-5" data-aos="fade-up">
+      <div class="section-badge">Achievements</div>
+      <h2 class="display-6 fw-bold">Certificates & <span class="gradient-text">Awards</span></h2>
+      <div class="divider-line"></div>
+    </div>
+    <div class="row g-4">
+      {% for cert in certificates %}
+      <div class="col-md-6 col-lg-4" data-aos="zoom-in" data-aos-delay="{{ forloop.counter0 }}00">
+        <div class="card p-4 h-100">
+          <div class="d-flex align-items-center gap-3 mb-3">
+            <div class="rounded-3 d-flex align-items-center justify-content-center flex-shrink-0" style="width:48px;height:48px;background:linear-gradient(135deg,rgba(255,171,0,0.2),rgba(255,101,132,0.1))">
+              <i class="bi bi-award-fill fs-4" style="color:#FFD700"></i>
+            </div>
+            <div>
+              <h6 class="fw-bold mb-0">{{ cert.title }}</h6>
+              <small style="color:var(--text-muted)">{{ cert.issuer }}</small>
+            </div>
+          </div>
+          <div class="d-flex justify-content-between align-items-center">
+            <span class="small" style="color:var(--text-muted)"><i class="bi bi-calendar3 me-1"></i>{{ cert.date|date:"M Y" }}</span>
+            {% if cert.credential_url %}
+            <a href="{{ cert.credential_url }}" class="btn btn-sm btn-outline-primary" target="_blank">View <i class="bi bi-arrow-up-right ms-1"></i></a>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+{% endblock %}

@@ -1,0 +1,114 @@
+{% extends 'base.html' %}
+{% block title %}{{ project.title }} — {{ profile.name|default:"Harshit Tiwari" }}{% endblock %}
+
+{% block content %}
+<div class="page-hero">
+  <div class="container" data-aos="fade-up">
+    <a href="{% url 'projects' %}" class="btn btn-outline-secondary btn-sm mb-3">
+      <i class="bi bi-arrow-left me-1"></i> Back to Projects
+    </a>
+    <div class="d-flex flex-wrap align-items-center gap-3 mb-2">
+      <span class="badge rounded-pill px-3 py-2" style="background:{% if project.status == 'completed' %}rgba(0,200,83,0.15);color:#00C853;border:1px solid rgba(0,200,83,0.3){% elif project.status == 'ongoing' %}rgba(255,171,0,0.15);color:#FFAB00;border:1px solid rgba(255,171,0,0.3){% else %}rgba(108,99,255,0.15);color:var(--primary);border:1px solid var(--border){% endif %}">
+        {{ project.get_status_display }}
+      </span>
+      {% if project.featured %}<span class="badge rounded-pill px-3 py-2" style="background:rgba(255,101,132,0.15);color:var(--accent);border:1px solid rgba(255,101,132,0.3)"><i class="bi bi-star-fill me-1"></i>Featured</span>{% endif %}
+    </div>
+    <h1 class="display-5 fw-bold">{{ project.title }}</h1>
+  </div>
+</div>
+
+<section class="py-5">
+  <div class="container">
+    <div class="row g-5">
+      <!-- Main content -->
+      <div class="col-lg-8">
+        {% if project.image %}
+        <div class="rounded-4 overflow-hidden mb-4 glow-purple" data-aos="fade-up">
+          <img src="{{ project.image.url }}" class="w-100" style="max-height:420px;object-fit:cover" alt="{{ project.title }}">
+        </div>
+        {% else %}
+        <div class="rounded-4 mb-4 d-flex align-items-center justify-content-center" style="height:320px;background:linear-gradient(135deg,rgba(108,99,255,0.2),rgba(255,101,132,0.1))" data-aos="fade-up">
+          <i class="bi bi-code-square" style="font-size:6rem;color:var(--primary);opacity:0.7"></i>
+        </div>
+        {% endif %}
+
+        <div class="card p-4 p-md-5" data-aos="fade-up">
+          <h3 class="fw-bold mb-3">About this <span class="gradient-text">Project</span></h3>
+          <p style="color:#B0B8C8;line-height:1.9;white-space:pre-line">{{ project.description }}</p>
+        </div>
+      </div>
+
+      <!-- Sidebar -->
+      <div class="col-lg-4">
+        <!-- Tech Stack -->
+        <div class="card p-4 mb-4" data-aos="fade-left">
+          <h5 class="fw-bold mb-3"><i class="bi bi-layers-fill me-2" style="color:var(--primary)"></i>Tech Stack</h5>
+          <div class="d-flex flex-wrap gap-2">
+            {% for tech in project.get_tech_list %}
+            <span class="tech-badge">{{ tech }}</span>
+            {% endfor %}
+          </div>
+        </div>
+
+        <!-- Links -->
+        <div class="card p-4 mb-4" data-aos="fade-left" data-aos-delay="100">
+          <h5 class="fw-bold mb-3"><i class="bi bi-link-45deg me-2" style="color:var(--primary)"></i>Project Links</h5>
+          <div class="d-flex flex-column gap-2">
+            {% if project.demo_url %}
+            <a href="{{ project.demo_url }}" class="btn btn-primary" target="_blank">
+              <i class="bi bi-box-arrow-up-right me-2"></i>Live Demo
+            </a>
+            {% endif %}
+            {% if project.github_url %}
+            <a href="{{ project.github_url }}" class="btn btn-outline-secondary" target="_blank">
+              <i class="bi bi-github me-2"></i>View on GitHub
+            </a>
+            {% endif %}
+            {% if not project.demo_url and not project.github_url %}
+            <p class="small mb-0" style="color:var(--text-muted)">No links available yet.</p>
+            {% endif %}
+          </div>
+        </div>
+
+        <!-- Info -->
+        <div class="card p-4" data-aos="fade-left" data-aos-delay="200">
+          <h5 class="fw-bold mb-3"><i class="bi bi-info-circle-fill me-2" style="color:var(--primary)"></i>Details</h5>
+          <div class="d-flex flex-column gap-2">
+            <div class="d-flex justify-content-between small">
+              <span style="color:var(--text-muted)">Status</span>
+              <span class="fw-500">{{ project.get_status_display }}</span>
+            </div>
+            <div class="d-flex justify-content-between small">
+              <span style="color:var(--text-muted)">Date</span>
+              <span class="fw-500">{{ project.created_at|date:"M Y" }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Related Projects -->
+    {% if related %}
+    <div class="mt-5" data-aos="fade-up">
+      <h4 class="fw-bold mb-4">More <span class="gradient-text">Projects</span></h4>
+      <div class="row g-4">
+        {% for rp in related %}
+        <div class="col-md-4">
+          <a href="{% url 'project_detail' rp.pk %}" class="text-decoration-none">
+            <div class="card h-100">
+              {% if rp.image %}<img src="{{ rp.image.url }}" class="card-img-top" style="height:150px;object-fit:cover" alt="{{ rp.title }}">
+              {% else %}<div style="height:150px;background:linear-gradient(135deg,rgba(108,99,255,0.15),rgba(255,101,132,0.1));display:flex;align-items:center;justify-content:center;font-size:2.5rem;color:var(--primary)"><i class="bi bi-code-square"></i></div>{% endif %}
+              <div class="card-body p-3">
+                <h6 class="fw-bold mb-1" style="color:#E8E8F0">{{ rp.title }}</h6>
+                <p class="small mb-0" style="color:var(--text-muted)">{{ rp.short_description|truncatewords:10 }}</p>
+              </div>
+            </div>
+          </a>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+    {% endif %}
+  </div>
+</section>
+{% endblock %}

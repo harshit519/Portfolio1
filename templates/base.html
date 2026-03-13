@@ -1,0 +1,475 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}{{ profile.name|default:"Harshit Tiwari" }}{% endblock %}</title>
+
+  <!-- Bootstrap 5.3 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <!-- AOS Animation -->
+  <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+
+  <style>
+    :root {
+      --primary: #6C63FF;
+      --accent: #FF6584;
+      --dark: #0A0A0F;
+      --card-bg: #12121A;
+      --border: rgba(108,99,255,0.2);
+      --text-muted: #8892A4;
+      --resume-banner-h: 0px;
+    }
+    * { scroll-behavior: smooth; }
+    body {
+      font-family: 'Space Grotesk', sans-serif;
+      background: var(--dark);
+      color: #E8E8F0;
+      overflow-x: hidden;
+    }
+    h1,h2,h3,h4,h5 { font-family: 'Syne', sans-serif; font-weight: 700; }
+
+    /* ── Resume Banner ── */
+    .resume-banner {
+      background: linear-gradient(90deg, #1a1040, #12121A, #1a1040);
+      border-bottom: 1px solid rgba(108,99,255,0.35);
+      padding: 9px 0;
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 1100;
+      animation: bannerSlide 0.6s ease-out;
+    }
+    @keyframes bannerSlide {
+      from { transform: translateY(-100%); opacity: 0; }
+      to   { transform: translateY(0);    opacity: 1; }
+    }
+    .resume-banner .inner {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+    .resume-banner .label {
+      font-size: 0.82rem;
+      color: #B0B8D0;
+      font-weight: 500;
+      letter-spacing: 0.3px;
+    }
+    .resume-banner .label strong { color: #E8E8F0; }
+    .resume-btn-view {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: linear-gradient(135deg, var(--primary), #8B5CF6);
+      color: #fff !important;
+      border-radius: 50px;
+      padding: 4px 16px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.3s;
+      border: none;
+    }
+    .resume-btn-view:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(108,99,255,0.45); }
+    .resume-btn-dl {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: transparent;
+      color: var(--primary) !important;
+      border: 1px solid rgba(108,99,255,0.5);
+      border-radius: 50px;
+      padding: 4px 14px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.3s;
+    }
+    .resume-btn-dl:hover { background: rgba(108,99,255,0.15); transform: translateY(-1px); }
+    .resume-banner .close-banner {
+      position: absolute;
+      right: 16px; top: 50%;
+      transform: translateY(-50%);
+      background: none; border: none;
+      color: var(--text-muted);
+      font-size: 1rem;
+      cursor: pointer;
+      line-height: 1;
+      padding: 4px;
+      transition: color 0.2s;
+    }
+    .resume-banner .close-banner:hover { color: #fff; }
+
+    /* ── Navbar ── */
+    .navbar {
+      background: rgba(10,10,15,0.92) !important;
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+      transition: top 0.3s, background 0.3s;
+    }
+    .navbar-brand {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 1.5rem;
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .nav-link {
+      color: var(--text-muted) !important;
+      font-weight: 500;
+      letter-spacing: 0.5px;
+      transition: color 0.3s;
+      position: relative;
+    }
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: -2px; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      transform: scaleX(0);
+      transition: transform 0.3s;
+    }
+    .nav-link:hover, .nav-link.active { color: #fff !important; }
+    .nav-link:hover::after, .nav-link.active::after { transform: scaleX(1); }
+
+    /* Buttons */
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary), #8B5CF6);
+      border: none;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      transition: all 0.3s;
+    }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(108,99,255,0.4); }
+    .btn-outline-primary {
+      border-color: var(--primary);
+      color: var(--primary);
+      font-weight: 600;
+    }
+    .btn-outline-primary:hover { background: var(--primary); transform: translateY(-2px); }
+
+    /* Cards */
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      transition: all 0.3s;
+    }
+    .card:hover { transform: translateY(-5px); border-color: var(--primary); box-shadow: 0 20px 40px rgba(108,99,255,0.15); }
+
+    /* Section titles */
+    .section-badge {
+      display: inline-block;
+      background: linear-gradient(135deg, rgba(108,99,255,0.2), rgba(255,101,132,0.2));
+      border: 1px solid var(--border);
+      border-radius: 50px;
+      padding: 6px 20px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--primary);
+      margin-bottom: 1rem;
+    }
+    .gradient-text {
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .divider-line {
+      width: 60px; height: 3px;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      border-radius: 3px;
+      margin: 1rem auto;
+    }
+
+    /* Glow effects */
+    .glow-purple { box-shadow: 0 0 30px rgba(108,99,255,0.3); }
+    .glow-pink   { box-shadow: 0 0 30px rgba(255,101,132,0.3); }
+
+    /* Page hero */
+    .page-hero {
+      background: linear-gradient(135deg, rgba(108,99,255,0.1), rgba(255,101,132,0.05));
+      border-bottom: 1px solid var(--border);
+      padding: 80px 0 60px;
+    }
+
+    /* Footer */
+    footer { background: #06060D; border-top: 1px solid var(--border); }
+    footer .social-link {
+      width: 40px; height: 40px;
+      display: inline-flex; align-items: center; justify-content: center;
+      border-radius: 50%;
+      background: rgba(108,99,255,0.1);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: all 0.3s;
+    }
+    footer .social-link:hover { background: var(--primary); color: #fff; transform: translateY(-3px); }
+
+    /* Tech badges */
+    .tech-badge {
+      background: rgba(108,99,255,0.1);
+      border: 1px solid rgba(108,99,255,0.3);
+      border-radius: 50px;
+      padding: 4px 14px;
+      font-size: 0.78rem;
+      font-weight: 500;
+      color: #B4ADFF;
+    }
+
+    /* Skill bar */
+    .skill-bar .progress {
+      height: 6px;
+      background: rgba(255,255,255,0.06);
+      border-radius: 10px;
+    }
+    .skill-bar .progress-bar {
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      border-radius: 10px;
+      width: 0;
+      transition: width 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* Timeline */
+    .timeline { position: relative; }
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 20px; top: 0; bottom: 0;
+      width: 2px;
+      background: linear-gradient(180deg, var(--primary), var(--accent), transparent);
+    }
+    .timeline-item { padding-left: 60px; position: relative; margin-bottom: 2rem; }
+    .timeline-dot {
+      position: absolute;
+      left: 12px; top: 8px;
+      width: 18px; height: 18px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      border: 3px solid var(--dark);
+    }
+
+    /* Floating */
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50%       { transform: translateY(-15px); }
+    }
+    .floating { animation: float 4s ease-in-out infinite; }
+
+    /* Counter */
+    .stat-number {
+      font-family: 'Syne', sans-serif;
+      font-size: 2.5rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--dark); }
+    ::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 3px; }
+
+    /* Fresher badge */
+    .fresher-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: linear-gradient(135deg, rgba(0,200,83,0.12), rgba(0,230,118,0.06));
+      border: 1px solid rgba(0,200,83,0.3);
+      border-radius: 50px;
+      padding: 6px 18px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: #00C853;
+    }
+  </style>
+
+  {% block extra_css %}{% endblock %}
+</head>
+<body>
+
+{% if profile and profile.resume %}
+<!-- ══ RESUME BANNER ══ -->
+<div class="resume-banner" id="resumeBanner">
+  <div class="container position-relative">
+    <div class="inner">
+      <span class="label">
+        <i class="bi bi-file-earmark-person-fill me-1" style="color:var(--primary)"></i>
+        <strong>{{ profile.name|default:"Harshit Tiwari" }}'s Resume</strong>
+        &nbsp;is available
+      </span>
+      <a href="{{ profile.resume.url }}" class="resume-btn-view" target="_blank" rel="noopener">
+        <i class="bi bi-eye-fill"></i> View Resume
+      </a>
+      <a href="{{ profile.resume.url }}" class="resume-btn-dl" download>
+        <i class="bi bi-download"></i> Download PDF
+      </a>
+    </div>
+    <button class="close-banner" id="closeBanner" aria-label="Close">
+      <i class="bi bi-x-lg"></i>
+    </button>
+  </div>
+</div>
+{% endif %}
+
+<!-- ══ NAVBAR ══ -->
+<nav class="navbar navbar-expand-lg fixed-top" id="mainNav">
+  <div class="container">
+    <a class="navbar-brand" href="{% url 'home' %}">
+      {% if profile %}{{ profile.name|default:"Harshit Tiwari"|truncatechars:2 }}{% else %}HT{% endif %}<span style="color:#fff;-webkit-text-fill-color:#fff">.</span>
+    </a>
+    <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navMain">
+      <i class="bi bi-list fs-4" style="color:var(--primary)"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navMain">
+      <ul class="navbar-nav ms-auto gap-1">
+        <li class="nav-item"><a class="nav-link px-3 {% if request.resolver_match.url_name == 'home' %}active{% endif %}" href="{% url 'home' %}">Home</a></li>
+        <li class="nav-item"><a class="nav-link px-3 {% if request.resolver_match.url_name == 'about' %}active{% endif %}" href="{% url 'about' %}">About</a></li>
+        <li class="nav-item"><a class="nav-link px-3 {% if request.resolver_match.url_name == 'experience' %}active{% endif %}" href="{% url 'experience' %}">Experience</a></li>
+        <li class="nav-item"><a class="nav-link px-3 {% if request.resolver_match.url_name == 'skills' %}active{% endif %}" href="{% url 'skills' %}">Skills</a></li>
+        <li class="nav-item"><a class="nav-link px-3 {% if request.resolver_match.url_name == 'projects' or request.resolver_match.url_name == 'project_detail' %}active{% endif %}" href="{% url 'projects' %}">Projects</a></li>
+        <li class="nav-item"><a class="nav-link px-3 {% if request.resolver_match.url_name == 'contact' %}active{% endif %}" href="{% url 'contact' %}">Contact</a></li>
+      </ul>
+      {% if profile and profile.resume %}
+      <a href="{{ profile.resume.url }}" class="btn btn-primary btn-sm ms-3 px-4" target="_blank">
+        <i class="bi bi-file-earmark-text me-1"></i>Resume
+      </a>
+      {% endif %}
+    </div>
+  </div>
+</nav>
+
+<!-- ══ MAIN CONTENT ══ -->
+<main id="mainContent">
+  {% if messages %}
+  <div class="container mt-3">
+    {% for msg in messages %}
+    <div class="alert alert-dismissible fade show border-0" role="alert"
+         style="background:{% if 'success' in msg.tags %}rgba(0,200,83,0.15);border-left:3px solid #00C853!important{% else %}rgba(255,82,82,0.15);border-left:3px solid #FF5252!important{% endif %}">
+      <i class="bi {% if 'success' in msg.tags %}bi-check-circle-fill text-success{% else %}bi-exclamation-triangle-fill text-danger{% endif %} me-2"></i>
+      {{ msg }}
+      <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+    {% endfor %}
+  </div>
+  {% endif %}
+  {% block content %}{% endblock %}
+</main>
+
+<!-- ══ FOOTER ══ -->
+<footer class="py-5 mt-5">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-md-4 text-center text-md-start mb-3 mb-md-0">
+        <div class="navbar-brand mb-1" style="font-family:'Syne',sans-serif;font-weight:800;font-size:1.4rem;background:linear-gradient(135deg,var(--primary),var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent;">
+          {{ profile.name|default:"Harshit Tiwari" }}
+        </div>
+        <p class="mb-0 small" style="color:var(--text-muted)">
+          {% if profile %}{{ profile.title|default:"Developer & Designer" }}{% else %}Developer & Designer{% endif %}
+        </p>
+      </div>
+      <div class="col-md-4 text-center mb-3 mb-md-0">
+        <div class="d-flex gap-2 justify-content-center">
+          {% if profile and profile.github %}<a href="{{ profile.github }}" class="social-link" target="_blank"><i class="bi bi-github"></i></a>{% endif %}
+          {% if profile and profile.linkedin %}<a href="{{ profile.linkedin }}" class="social-link" target="_blank"><i class="bi bi-linkedin"></i></a>{% endif %}
+          {% if profile and profile.twitter %}<a href="{{ profile.twitter }}" class="social-link" target="_blank"><i class="bi bi-twitter-x"></i></a>{% endif %}
+          {% if profile and profile.email %}<a href="mailto:{{ profile.email }}" class="social-link"><i class="bi bi-envelope-fill"></i></a>{% endif %}
+        </div>
+      </div>
+      <div class="col-md-4 text-center text-md-end">
+        <p class="mb-0 small" style="color:var(--text-muted)">
+          © 2025 {{ profile.name|default:"Harshit Tiwari" }} · Built with <i class="bi bi-heart-fill text-danger"></i> Django
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/countup.js@2.8.0/dist/countUp.umd.js"></script>
+
+<script>
+  AOS.init({ duration: 800, once: true, easing: 'ease-out-cubic' });
+
+  // ── Resume banner + navbar offset ──
+  const banner   = document.getElementById('resumeBanner');
+  const closeBtn = document.getElementById('closeBanner');
+  const nav      = document.getElementById('mainNav');
+  const main     = document.getElementById('mainContent');
+
+  function setOffsets() {
+    const bh = banner && banner.offsetHeight || 0;
+    const nh = nav   && nav.offsetHeight    || 0;
+    if (nav)  nav.style.top  = bh + 'px';
+    if (main) main.style.paddingTop = (bh + nh) + 'px';
+  }
+  setOffsets();
+  window.addEventListener('resize', setOffsets);
+
+  if (closeBtn) {
+    closeBtn.addEventListener('click', () => {
+      banner.style.transition = 'opacity 0.3s, transform 0.3s';
+      banner.style.opacity = '0';
+      banner.style.transform = 'translateY(-100%)';
+      setTimeout(() => {
+        banner.style.display = 'none';
+        setOffsets();
+      }, 300);
+    });
+  }
+
+  // ── Animate skill bars on scroll ──
+  function animateSkillBars() {
+    document.querySelectorAll('.skill-bar .progress-bar').forEach(bar => {
+      const val = bar.getAttribute('data-value');
+      const rect = bar.getBoundingClientRect();
+      if (rect.top < window.innerHeight && !bar.classList.contains('animated')) {
+        bar.style.width = val + '%';
+        bar.classList.add('animated');
+      }
+    });
+  }
+  window.addEventListener('scroll', animateSkillBars);
+  setTimeout(animateSkillBars, 500);
+
+  // ── Counter animations ──
+  document.querySelectorAll('[data-count]').forEach(el => {
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          const cu = new countUp.CountUp(el, parseInt(el.getAttribute('data-count')), { duration: 2.5 });
+          cu.start();
+          observer.unobserve(el);
+        }
+      });
+    });
+    observer.observe(el);
+  });
+
+  // ── Navbar scroll tint ──
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 50) {
+      nav.style.background = 'rgba(6,6,13,0.98)';
+    } else {
+      nav.style.background = 'rgba(10,10,15,0.92)';
+    }
+  });
+</script>
+{% block extra_js %}{% endblock %}
+</body>
+</html>

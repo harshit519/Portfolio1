@@ -1,0 +1,397 @@
+[
+{
+  "model": "main.profile",
+  "pk": 5,
+  "fields": {
+    "name": "Harshit Tiwari",
+    "title": "Python Developer | Django & Odoo 17 Developer",
+    "tagline": "Python Developer with expertise in Odoo 17 custom modules and Django full-stack development, building secure and scalable web applications.",
+    "bio": "Python Developer and Software Engineer with hands-on expertise in Odoo 17 custom module development and Django full-stack web application development. Proficient in ERP customization, business workflow automation, Python ORM, XML/QWeb view design, RESTful API development, and Django REST Framework (DRF). Experienced with Linux/Ubuntu Odoo environments, OAuth2 integration, and role-based access control. Actively seeking a Python Developer / Odoo / Django Developer role to deliver high-quality ERP solutions and web applications.",
+    "email": "tiwariharshit139@gmail.com",
+    "phone": "+91 9559745268",
+    "location": "Nawabganj, Gonda, Uttar Pradesh, India",
+    "github": "https://github.com/harshit519",
+    "linkedin": "https://linkedin.com/in/harshit-tiwari-402018205",
+    "twitter": "",
+    "resume": "resume/Harshit_Tiwari_Resume.pdf",
+    "avatar": "",
+    "years_experience": 0,
+    "projects_done": 5,
+    "clients": 0
+  }
+},
+{
+  "model": "main.skill",
+  "pk": 13,
+  "fields": {
+    "name": "Python",
+    "category": "backend",
+    "proficiency": 90,
+    "icon": "bi-filetype-py",
+    "order": 1
+  }
+},
+{
+  "model": "main.skill",
+  "pk": 14,
+  "fields": {
+    "name": "Django",
+    "category": "backend",
+    "proficiency": 88,
+    "icon": "bi-server",
+    "order": 2
+  }
+},
+{
+  "model": "main.skill",
+  "pk": 15,
+  "fields": {
+    "name": "Odoo 17",
+    "category": "backend",
+    "proficiency": 82,
+    "icon": "bi-boxes",
+    "order": 3
+  }
+},
+{
+  "model": "main.skill",
+  "pk": 16,
+  "fields": {
+    "name": "Django REST Framework",
+    "category": "backend",
+    "proficiency": 82,
+    "icon": "bi-diagram-3",
+    "order": 4
+  }
+},
+{
+  "model": "main.skill",
+  "pk": 17,
+  "fields": {
+    "name": "HTML & CSS",
+    "category": "frontend",
+    "proficiency": 85,
+    "icon": "bi-filetype-html",
+    "order": 5
+  }
+},
+{
+  "model": "main.skill",
+  "pk": 18,
+  "fields": {
+    "name": "Bootstrap 5",
+    "category": "frontend",
+    "proficiency": 85,
+    "icon": "bi-bootstrap-fill",
+    "order": 6
+  }
+},
+{
+  "model": "main.skill",
+  "pk": 19,
+  "fields": {
+    "name": "JavaScript / jQuery",
+    "category": "frontend",
+    "proficiency": 75,
+    "icon": "bi-filetype-js",
+    "order": 7
+  }
+},
+{
+  "model": "main.skill",
+  "pk": 20,
+  "fields": {
+    "name": "PostgreSQL",
+    "category": "database",
+    "proficiency": 78,
+    "icon": "bi-database-fill",
+    "order": 8
+  }
+},
+{
+  "model": "main.skill",
+  "pk": 21,
+  "fields": {
+    "name": "SQLite",
+    "category": "database",
+    "proficiency": 80,
+    "icon": "bi-database",
+    "order": 9
+  }
+},
+{
+  "model": "main.skill",
+  "pk": 22,
+  "fields": {
+    "name": "SQL",
+    "category": "database",
+    "proficiency": 78,
+    "icon": "bi-table",
+    "order": 10
+  }
+},
+{
+  "model": "main.skill",
+  "pk": 23,
+  "fields": {
+    "name": "Git & GitHub",
+    "category": "tools",
+    "proficiency": 82,
+    "icon": "bi-git",
+    "order": 11
+  }
+},
+{
+  "model": "main.skill",
+  "pk": 24,
+  "fields": {
+    "name": "Linux / Ubuntu",
+    "category": "tools",
+    "proficiency": 75,
+    "icon": "bi-terminal-fill",
+    "order": 12
+  }
+},
+{
+  "model": "main.skill",
+  "pk": 25,
+  "fields": {
+    "name": "BeautifulSoup",
+    "category": "tools",
+    "proficiency": 80,
+    "icon": "bi-bug-fill",
+    "order": 13
+  }
+},
+{
+  "model": "main.skill",
+  "pk": 26,
+  "fields": {
+    "name": "Postman",
+    "category": "tools",
+    "proficiency": 78,
+    "icon": "bi-send-fill",
+    "order": 14
+  }
+},
+{
+  "model": "main.skill",
+  "pk": 27,
+  "fields": {
+    "name": "OAuth2 / RBAC",
+    "category": "tools",
+    "proficiency": 75,
+    "icon": "bi-shield-lock-fill",
+    "order": 15
+  }
+},
+{
+  "model": "main.project",
+  "pk": 7,
+  "fields": {
+    "title": "Personal Health Management Module",
+    "description": "Architected and developed a production-ready custom Odoo 17 ERP module from scratch on Linux/Ubuntu following Odoo module structure, manifest configuration, and software engineering best practices.\n\nKey Highlights:\n• Defined custom model (models.Model) with Odoo-typed fields — Float, Date, Char — to store personal health records: Height, Weight, and Date of Birth\n• Implemented computed fields using @api.depends for real-time BMI and Age auto-calculation with correctly chained ORM lifecycle hooks\n• Built a Wizard (TransientModel) for a guided BMI assessment input flow with pop-up dialog view design\n• Designed Form View, Tree View, and QWeb report template using Odoo XML for data entry and printable health summaries\n• Applied BMI categorization business logic — Underweight, Normal, Overweight — using @api.constrains\n• Wrote Python unit tests (unittest) to validate all computed field logic and BMI categorization before deployment\n• Deployed and upgraded module via Odoo CLI scaffold, install, and update commands on local Odoo instance",
+    "short_description": "Custom Odoo 17 ERP module with BMI tracking, computed fields, QWeb reports, and Python unit tests on Linux.",
+    "tech_stack": "Odoo 17,Python,XML,QWeb,TransientModel,Linux,unittest,Python ORM",
+    "image": "",
+    "demo_url": "",
+    "github_url": "https://github.com/harshit519",
+    "status": "completed",
+    "featured": true,
+    "order": 1,
+    "created_at": "2026-03-13"
+  }
+},
+{
+  "model": "main.project",
+  "pk": 8,
+  "fields": {
+    "title": "SecureVault KYC",
+    "description": "Engineered a secure KYC (Know Your Customer) identity verification platform using Django and Django REST Framework with enterprise-grade security features.\n\nKey Highlights:\n• Engineered full-stack secure KYC platform with role-based access control (RBAC) and complete user lifecycle management\n• Designed and implemented RESTful API endpoints for user registration, document upload, validation, and verification status following REST best practices\n• Implemented secure password hashing using Python hashlib, multi-format document validation, and normalized SQLite relational database models\n• Tested all API endpoints using Postman; validated authentication flows, HTTP status codes, and error handling across all routes\n• Built responsive Bootstrap 5 UI with dynamic Django templates for registration, login, profile, and document submission workflows\n• Applied CSRF protection, secure session management, and Django middleware configuration throughout",
+    "short_description": "Full-stack identity verification platform using Django REST Framework with RBAC, document upload, and Postman-tested APIs.",
+    "tech_stack": "Django,DRF,REST API,RBAC,SQLite,Bootstrap 5,Postman,Python hashlib",
+    "image": "",
+    "demo_url": "",
+    "github_url": "https://github.com/harshit519",
+    "status": "completed",
+    "featured": true,
+    "order": 2,
+    "created_at": "2026-03-13"
+  }
+},
+{
+  "model": "main.project",
+  "pk": 9,
+  "fields": {
+    "title": "E-Commerce Price Tracker",
+    "description": "Built a full-stack Django web application to scrape and display real-time product prices from Amazon and Flipkart using Python Requests and BeautifulSoup.\n\nKey Highlights:\n• Developed a web scraping application using Python Requests and BeautifulSoup with a robust HTML parsing pipeline\n• Extracted product names, prices, and metadata from Amazon and Flipkart; rendered results in a dynamic filterable tabular UI using Django templates\n• Implemented complete Django user authentication — registration, login, logout — with session management and form validation\n• Designed and built a user-friendly web interface to display scraped data in an organized, readable tabular format\n• Handled edge cases like anti-scraping measures, dynamic content, and error handling for robust data extraction",
+    "short_description": "Django web app scraping real-time product prices from Amazon & Flipkart with user authentication and tabular UI.",
+    "tech_stack": "Django,Python,BeautifulSoup,Requests,Web Scraping,Bootstrap,SQLite",
+    "image": "",
+    "demo_url": "",
+    "github_url": "https://github.com/harshit519",
+    "status": "completed",
+    "featured": true,
+    "order": 3,
+    "created_at": "2026-03-13"
+  }
+},
+{
+  "model": "main.project",
+  "pk": 10,
+  "fields": {
+    "title": "Recipe Management Platform",
+    "description": "Created a feature-rich recipe management application allowing users to save, edit, search, and manage recipes efficiently.\n\nKey Highlights:\n• Developed a full-stack Django application with complete CRUD operations using Django ORM for effective data handling\n• Implemented recipe search and filter functionality by name using Django ORM queries for fast lookups\n• Built image upload support for recipe photos with Django's file handling and media management\n• Designed a user-friendly dashboard for users to add and manage recipes with titles, descriptions, and images\n• Built responsive Bootstrap UI with form validation, dynamic template rendering for consistent cross-device experience",
+    "short_description": "Full-stack Django app with complete CRUD, recipe search & filter, image upload, and responsive Bootstrap dashboard.",
+    "tech_stack": "Django,Python ORM,Bootstrap,CRUD,SQLite,Django Templates",
+    "image": "",
+    "demo_url": "",
+    "github_url": "https://github.com/harshit519",
+    "status": "completed",
+    "featured": false,
+    "order": 4,
+    "created_at": "2026-03-13"
+  }
+},
+{
+  "model": "main.project",
+  "pk": 11,
+  "fields": {
+    "title": "Google Sign-In App",
+    "description": "Integrated Google OAuth2 into a Django application implementing the complete authorization code flow with enterprise-grade security.\n\nKey Highlights:\n• Implemented full Google OAuth2 authorization code flow including consent screen, callback handler, and token exchange\n• Configured auth-guarded views, secure session management, Django middleware configuration, and CSRF-protected redirect-based authentication\n• Set up OAuth2 settings, URL routing, and Django middleware for seamless Google Sign-In user experience\n• Implemented session tracking, secure logout, and user profile data retrieval from Google APIs\n• Applied CSRF protection across all authentication routes and redirect flows",
+    "short_description": "Django app with full Google OAuth2 integration — authorization flow, callback handler, session management, and CSRF protection.",
+    "tech_stack": "Django,OAuth2,Google Auth,Session Management,CSRF,Middleware,Python",
+    "image": "",
+    "demo_url": "",
+    "github_url": "https://github.com/harshit519",
+    "status": "completed",
+    "featured": false,
+    "order": 5,
+    "created_at": "2026-03-13"
+  }
+},
+{
+  "model": "main.education",
+  "pk": 2,
+  "fields": {
+    "institution": "Bundelkhand University, Jhansi",
+    "degree": "Bachelor of Technology (B.Tech)",
+    "field": "Computer Science & Engineering",
+    "start_year": 2020,
+    "end_year": 2024,
+    "is_current": false,
+    "description": "Studied core CS fundamentals including data structures, algorithms, databases, operating systems, and software engineering. Developed multiple real-world projects using Python and Django.",
+    "gpa": ""
+  }
+},
+{
+  "model": "main.education",
+  "pk": 3,
+  "fields": {
+    "institution": "Udaya Public School, Ayodhya",
+    "degree": "Intermediate (Class XII)",
+    "field": "Science",
+    "start_year": 2019,
+    "end_year": 2020,
+    "is_current": false,
+    "description": "",
+    "gpa": ""
+  }
+},
+{
+  "model": "main.education",
+  "pk": 4,
+  "fields": {
+    "institution": "Udaya Public School, Ayodhya",
+    "degree": "High School (Class X)",
+    "field": "General",
+    "start_year": 2017,
+    "end_year": 2018,
+    "is_current": false,
+    "description": "",
+    "gpa": ""
+  }
+},
+{
+  "model": "main.service",
+  "pk": 7,
+  "fields": {
+    "title": "Django Web Development",
+    "description": "Building full-stack Django web applications with clean architecture, authentication, and responsive Bootstrap UIs.",
+    "icon": "bi-code-slash",
+    "order": 1
+  }
+},
+{
+  "model": "main.service",
+  "pk": 8,
+  "fields": {
+    "title": "Odoo Module Development",
+    "description": "Creating custom Odoo 17 ERP modules with Python ORM, XML views, QWeb reports, wizards, and business workflow automation.",
+    "icon": "bi-boxes",
+    "order": 2
+  }
+},
+{
+  "model": "main.service",
+  "pk": 9,
+  "fields": {
+    "title": "REST API Development",
+    "description": "Designing and building RESTful APIs using Django REST Framework with authentication, RBAC, and Postman testing.",
+    "icon": "bi-diagram-3-fill",
+    "order": 3
+  }
+},
+{
+  "model": "main.service",
+  "pk": 10,
+  "fields": {
+    "title": "Web Scraping Solutions",
+    "description": "Building robust web scraping pipelines using Python, BeautifulSoup, and Requests to extract and process data at scale.",
+    "icon": "bi-search",
+    "order": 4
+  }
+},
+{
+  "model": "main.service",
+  "pk": 11,
+  "fields": {
+    "title": "Database Design",
+    "description": "Designing optimized relational database schemas using PostgreSQL and SQLite with Django ORM for scalable data persistence.",
+    "icon": "bi-database-fill",
+    "order": 5
+  }
+},
+{
+  "model": "main.service",
+  "pk": 12,
+  "fields": {
+    "title": "OAuth2 & Secure Auth",
+    "description": "Implementing secure authentication systems including Google OAuth2, password hashing, RBAC, session management, and CSRF protection.",
+    "icon": "bi-shield-lock-fill",
+    "order": 6
+  }
+},
+{
+  "model": "main.certificate",
+  "pk": 1,
+  "fields": {
+    "title": "Python Basic",
+    "issuer": "HackerRank",
+    "date": "2023-01-01",
+    "credential_url": "https://www.hackerrank.com/certificates/2c6ea9a3f77b",
+    "image": ""
+  }
+},
+{
+  "model": "main.certificate",
+  "pk": 2,
+  "fields": {
+    "title": "Python Essentials 1",
+    "issuer": "Cisco Networking Academy",
+    "date": "2023-06-01",
+    "credential_url": "https://www.credly.com/badges/67e1f794-7c2f-4c35-880f-e585e0842e63/public_url",
+    "image": ""
+  }
+}
+]

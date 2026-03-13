@@ -1,0 +1,151 @@
+{% extends 'base.html' %}
+{% block title %}Contact — {{ profile.name|default:"Portfolio" }}{% endblock %}
+
+{% block extra_css %}
+<style>
+  .contact-input {
+    background: rgba(108,99,255,0.05) !important;
+    border: 1px solid var(--border) !important;
+    color: #E8E8F0 !important;
+    border-radius: 12px !important;
+    padding: 14px 18px !important;
+    transition: all 0.3s !important;
+    font-family: 'Space Grotesk', sans-serif !important;
+  }
+  .contact-input:focus {
+    background: rgba(108,99,255,0.1) !important;
+    border-color: var(--primary) !important;
+    box-shadow: 0 0 0 4px rgba(108,99,255,0.1) !important;
+    outline: none !important;
+  }
+  .contact-input::placeholder { color: var(--text-muted) !important; }
+  .info-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    transition: all 0.3s;
+  }
+  .info-card:hover { border-color: var(--primary); transform: translateX(5px); }
+  .info-icon {
+    width: 52px; height: 52px;
+    border-radius: 14px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.3rem;
+    flex-shrink: 0;
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="page-hero">
+  <div class="container text-center" data-aos="fade-up">
+    <div class="section-badge">Get In Touch</div>
+    <h1 class="display-5 fw-bold">Contact <span class="gradient-text">Me</span></h1>
+    <p style="color:var(--text-muted)">Have a project? Let's talk!</p>
+  </div>
+</div>
+
+<section class="py-5">
+  <div class="container">
+    <div class="row gy-5">
+      <!-- Info Side -->
+      <div class="col-lg-5" data-aos="fade-right">
+        <h3 class="fw-bold mb-2">Let's <span class="gradient-text">Connect</span></h3>
+        <p class="mb-4" style="color:var(--text-muted);line-height:1.8">
+          I'm always open to discussing new projects, creative ideas or opportunities to be part of your vision.
+        </p>
+        <div class="d-flex flex-column gap-3 mb-5">
+          {% if profile.email %}
+          <div class="info-card">
+            <div class="info-icon" style="background:linear-gradient(135deg,rgba(108,99,255,0.2),rgba(255,101,132,0.1))">
+              <i class="bi bi-envelope-fill" style="color:var(--primary)"></i>
+            </div>
+            <div>
+              <div class="small" style="color:var(--text-muted)">Email</div>
+              <a href="mailto:{{ profile.email }}" class="fw-500 text-decoration-none" style="color:#E8E8F0">{{ profile.email }}</a>
+            </div>
+          </div>
+          {% endif %}
+          {% if profile.phone %}
+          <div class="info-card">
+            <div class="info-icon" style="background:linear-gradient(135deg,rgba(0,200,83,0.15),rgba(0,200,83,0.05))">
+              <i class="bi bi-phone-fill" style="color:#00C853"></i>
+            </div>
+            <div>
+              <div class="small" style="color:var(--text-muted)">Phone</div>
+              <a href="tel:{{ profile.phone }}" class="fw-500 text-decoration-none" style="color:#E8E8F0">{{ profile.phone }}</a>
+            </div>
+          </div>
+          {% endif %}
+          {% if profile.location %}
+          <div class="info-card">
+            <div class="info-icon" style="background:linear-gradient(135deg,rgba(255,171,0,0.15),rgba(255,101,132,0.1))">
+              <i class="bi bi-geo-alt-fill" style="color:#FFAB00"></i>
+            </div>
+            <div>
+              <div class="small" style="color:var(--text-muted)">Location</div>
+              <span class="fw-500">{{ profile.location }}</span>
+            </div>
+          </div>
+          {% endif %}
+        </div>
+        <h6 class="fw-bold mb-3" style="color:var(--text-muted)">FIND ME ON</h6>
+        <div class="d-flex gap-3">
+          {% if profile.github %}
+          <a href="{{ profile.github }}" class="btn btn-outline-secondary rounded-circle p-2" style="width:44px;height:44px;display:flex;align-items:center;justify-content:center" target="_blank">
+            <i class="bi bi-github"></i>
+          </a>
+          {% endif %}
+          {% if profile.linkedin %}
+          <a href="{{ profile.linkedin }}" class="btn btn-outline-primary rounded-circle p-2" style="width:44px;height:44px;display:flex;align-items:center;justify-content:center" target="_blank">
+            <i class="bi bi-linkedin"></i>
+          </a>
+          {% endif %}
+          {% if profile.twitter %}
+          <a href="{{ profile.twitter }}" class="btn btn-outline-info rounded-circle p-2" style="width:44px;height:44px;display:flex;align-items:center;justify-content:center" target="_blank">
+            <i class="bi bi-twitter-x"></i>
+          </a>
+          {% endif %}
+        </div>
+      </div>
+
+      <!-- Form Side -->
+      <div class="col-lg-7" data-aos="fade-left">
+        <div class="card p-4 p-md-5">
+          <h4 class="fw-bold mb-4">Send a <span class="gradient-text">Message</span></h4>
+          <form method="post">
+            {% csrf_token %}
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label class="form-label small fw-500" style="color:var(--text-muted)">Your Name *</label>
+                <input type="text" name="name" class="form-control contact-input" placeholder="John Doe" required>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label small fw-500" style="color:var(--text-muted)">Email Address *</label>
+                <input type="email" name="email" class="form-control contact-input" placeholder="john@example.com" required>
+              </div>
+              <div class="col-12">
+                <label class="form-label small fw-500" style="color:var(--text-muted)">Subject *</label>
+                <input type="text" name="subject" class="form-control contact-input" placeholder="Project Inquiry" required>
+              </div>
+              <div class="col-12">
+                <label class="form-label small fw-500" style="color:var(--text-muted)">Message *</label>
+                <textarea name="message" class="form-control contact-input" rows="6" placeholder="Tell me about your project..." required></textarea>
+              </div>
+              <div class="col-12">
+                <button type="submit" class="btn btn-primary w-100 py-3 fw-600">
+                  <i class="bi bi-send-fill me-2"></i>Send Message
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
