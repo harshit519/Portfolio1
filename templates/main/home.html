@@ -416,9 +416,19 @@
           </div>
           <div class="p-4">
             <div class="d-flex gap-2 mb-2 flex-wrap">
-              <span class="badge rounded-pill" style="background:{% if project.status == 'completed' %}rgba(0,200,83,0.15);color:#00C853{% elif project.status == 'ongoing' %}rgba(255,171,0,0.15);color:#FFAB00{% else %}rgba(108,99,255,0.15);color:var(--primary){% endif %}">
+              {% if project.status == 'completed' %}
+              <span class="badge rounded-pill" style="background:rgba(0,200,83,0.15);color:#00C853">
                 {{ project.get_status_display }}
               </span>
+              {% elif project.status == 'ongoing' %}
+              <span class="badge rounded-pill" style="background:rgba(255,171,0,0.15);color:#FFAB00">
+                {{ project.get_status_display }}
+              </span>
+              {% else %}
+              <span class="badge rounded-pill" style="background:rgba(108,99,255,0.15);color:var(--primary)">
+                {{ project.get_status_display }}
+              </span>
+              {% endif %}
               {% if project.featured %}<span class="badge rounded-pill" style="background:rgba(255,101,132,0.15);color:var(--accent)"><i class="bi bi-star-fill me-1"></i>Featured</span>{% endif %}
             </div>
             <h5 class="fw-bold mb-2">{{ project.title }}</h5>

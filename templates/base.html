@@ -294,6 +294,16 @@
       font-weight: 600;
       color: #00C853;
     }
+
+    /* Custom Alerts */
+    .alert-success-custom {
+      background: rgba(0,200,83,0.15) !important;
+      border-left: 3px solid #00C853 !important;
+    }
+    .alert-danger-custom {
+      background: rgba(255,82,82,0.15) !important;
+      border-left: 3px solid #FF5252 !important;
+    }
   </style>
 
   {% block extra_css %}{% endblock %}
@@ -356,8 +366,7 @@
   {% if messages %}
   <div class="container mt-3">
     {% for msg in messages %}
-    <div class="alert alert-dismissible fade show border-0" role="alert"
-         style="background:{% if 'success' in msg.tags %}rgba(0,200,83,0.15);border-left:3px solid #00C853!important{% else %}rgba(255,82,82,0.15);border-left:3px solid #FF5252!important{% endif %}">
+    <div class="alert alert-dismissible fade show border-0 {% if 'success' in msg.tags %}alert-success-custom{% else %}alert-danger-custom{% endif %}" role="alert">
       <i class="bi {% if 'success' in msg.tags %}bi-check-circle-fill text-success{% else %}bi-exclamation-triangle-fill text-danger{% endif %} me-2"></i>
       {{ msg }}
       <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
