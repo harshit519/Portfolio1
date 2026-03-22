@@ -6,10 +6,7 @@
   /* ── HERO ── */
   .hero-section {
     min-height: 100vh;
-    min-height: -webkit-fill-available; /* iOS fix for 100vh */
-    display: -webkit-flex;
     display: flex;
-    -webkit-align-items: center;
     align-items: center;
     position: relative;
     overflow: hidden;
@@ -17,9 +14,7 @@
   }
   .hero-section::before {
     content: '';
-    position: absolute; top:0; left:0; right:0; bottom:0;
-    background-image: -webkit-linear-gradient(rgba(108,99,255,0.04) 1px, transparent 1px),
-                      -webkit-linear-gradient(0deg, rgba(108,99,255,0.04) 1px, transparent 1px);
+    position: absolute; inset: 0;
     background-image: linear-gradient(rgba(108,99,255,0.04) 1px, transparent 1px),
                       linear-gradient(90deg, rgba(108,99,255,0.04) 1px, transparent 1px);
     background-size: 60px 60px;
@@ -27,17 +22,9 @@
   .hero-avatar {
     width: 280px; height: 280px;
     border-radius: 40% 60% 60% 40% / 60% 30% 70% 40%;
-    -o-object-fit: cover;
     object-fit: cover;
-    -webkit-animation: morphShape 8s ease-in-out infinite;
     animation: morphShape 8s ease-in-out infinite;
     border: 3px solid rgba(108,99,255,0.4);
-  }
-  @-webkit-keyframes morphShape {
-    0%,100%{ border-radius:40% 60% 60% 40%/60% 30% 70% 40%; }
-    25%    { border-radius:60% 40% 30% 70%/50% 60% 40% 50%; }
-    50%    { border-radius:30% 70% 70% 30%/40% 50% 60% 50%; }
-    75%    { border-radius:50% 50% 30% 70%/30% 60% 40% 70%; }
   }
   @keyframes morphShape {
     0%,100%{ border-radius:40% 60% 60% 40%/60% 30% 70% 40%; }
@@ -48,78 +35,57 @@
   .avatar-ring { position:relative; display:inline-block; }
   .avatar-ring::before,.avatar-ring::after {
     content:''; position:absolute; border-radius:50%;
-    -webkit-animation: pulse-ring 3s ease-in-out infinite;
     animation: pulse-ring 3s ease-in-out infinite;
   }
-  .avatar-ring::before { top:-15px; left:-15px; right:-15px; bottom:-15px; border:2px solid rgba(108,99,255,0.3); }
-  .avatar-ring::after  { top:-30px; left:-30px; right:-30px; bottom:-30px; border:1px solid rgba(255,101,132,0.2); -webkit-animation-delay:1s; animation-delay:1s; }
-  @-webkit-keyframes pulse-ring {
-    0%,100%{ opacity:1; -webkit-transform:scale(1); transform:scale(1); }
-    50%    { opacity:0.4; -webkit-transform:scale(1.05); transform:scale(1.05); }
-  }
+  .avatar-ring::before { inset:-15px; border:2px solid rgba(108,99,255,0.3); }
+  .avatar-ring::after  { inset:-30px; border:1px solid rgba(255,101,132,0.2); animation-delay:1s; }
   @keyframes pulse-ring {
-    0%,100%{ opacity:1; -webkit-transform:scale(1); transform:scale(1); }
-    50%    { opacity:0.4; -webkit-transform:scale(1.05); transform:scale(1.05); }
+    0%,100%{ opacity:1; transform:scale(1); }
+    50%    { opacity:0.4; transform:scale(1.05); }
   }
   .hero-title {
-    font-size: clamp(1.8rem, 5vw, 4rem);
+    font-size: clamp(2.2rem, 5vw, 4rem);
     line-height: 1.1;
-    -webkit-animation: fadeUp 0.8s ease-out 0.2s both;
     animation: fadeUp 0.8s ease-out 0.2s both;
   }
-  @-webkit-keyframes fadeDown { from{opacity:0;-webkit-transform:translateY(-20px);transform:translateY(-20px)} to{opacity:1;-webkit-transform:translateY(0);transform:translateY(0)} }
-  @keyframes fadeDown { from{opacity:0;-webkit-transform:translateY(-20px);transform:translateY(-20px)} to{opacity:1;-webkit-transform:translateY(0);transform:translateY(0)} }
-  @-webkit-keyframes fadeUp   { from{opacity:0;-webkit-transform:translateY(30px);transform:translateY(30px)}  to{opacity:1;-webkit-transform:translateY(0);transform:translateY(0)} }
-  @keyframes fadeUp   { from{opacity:0;-webkit-transform:translateY(30px);transform:translateY(30px)}  to{opacity:1;-webkit-transform:translateY(0);transform:translateY(0)} }
+  @keyframes fadeDown { from{opacity:0;transform:translateY(-20px)} to{opacity:1;transform:translateY(0)} }
+  @keyframes fadeUp   { from{opacity:0;transform:translateY(30px)}  to{opacity:1;transform:translateY(0)} }
 
   .hero-badge {
     background: rgba(108,99,255,0.15);
     border: 1px solid rgba(108,99,255,0.3);
     border-radius: 50px;
     padding: 7px 18px;
-    display: -webkit-inline-flex;
     display: inline-flex;
-    -webkit-align-items: center;
     align-items: center;
     gap: 8px;
     margin-bottom: 1.2rem;
-    -webkit-animation: fadeDown 0.8s ease-out;
     animation: fadeDown 0.8s ease-out;
   }
 
   /* ── RESUME CARD in hero ── */
   .resume-hero-card {
-    background: -webkit-linear-gradient(315deg, rgba(108,99,255,0.12), rgba(255,101,132,0.07));
     background: linear-gradient(135deg, rgba(108,99,255,0.12), rgba(255,101,132,0.07));
     border: 1px solid rgba(108,99,255,0.35);
     border-radius: 16px;
     padding: 1rem 1.2rem;
-    display: -webkit-flex;
     display: flex;
-    -webkit-align-items: center;
     align-items: center;
     gap: 12px;
-    -webkit-transition: all 0.3s;
     transition: all 0.3s;
     text-decoration: none;
     margin-top: 1rem;
   }
   .resume-hero-card:hover {
     border-color: var(--primary);
-    -webkit-transform: translateY(-3px);
     transform: translateY(-3px);
-    -webkit-box-shadow: 0 10px 30px rgba(108,99,255,0.25);
     box-shadow: 0 10px 30px rgba(108,99,255,0.25);
   }
   .resume-hero-card .ricon {
     width: 44px; height: 44px;
-    background: -webkit-linear-gradient(315deg, var(--primary), var(--accent));
     background: linear-gradient(135deg, var(--primary), var(--accent));
     border-radius: 12px;
-    display: -webkit-flex; display: flex;
-    -webkit-align-items: center; align-items: center;
-    -webkit-justify-content: center; justify-content: center;
-    -webkit-flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
     flex-shrink: 0;
     font-size: 1.2rem; color: #fff;
   }
@@ -138,7 +104,7 @@
     font-family: 'Syne', sans-serif;
     font-size: 2.2rem; font-weight: 800;
     background: linear-gradient(135deg, var(--primary), var(--accent));
-    -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
   }
 
   /* ── SKILLS PREVIEW ── */
@@ -180,46 +146,6 @@
   }
   .proj-card:hover .proj-overlay { opacity:1; }
   .proj-img-wrap { position:relative; overflow:hidden; }
-
-  /* ── MOBILE RESPONSIVE overrides ── */
-  @media (max-width: 575.98px) {
-    .hero-avatar {
-      width: 180px; height: 180px;
-    }
-    .avatar-ring::before { top:-10px; left:-10px; right:-10px; bottom:-10px; }
-    .avatar-ring::after  { top:-18px; left:-18px; right:-18px; bottom:-18px; }
-    .hero-section .position-absolute {
-      display: none !important; /* Hide floating badges on very small screens */
-    }
-    .stat-card {
-      padding: 1rem 0.7rem;
-    }
-    .proj-img, .proj-placeholder {
-      height: 160px;
-    }
-    .service-card {
-      padding: 1.3rem;
-    }
-    .service-icon {
-      width: 46px; height: 46px;
-      font-size: 1.1rem;
-    }
-    .resume-hero-card {
-      padding: 0.8rem 1rem;
-    }
-  }
-  @media (min-width: 576px) and (max-width: 767.98px) {
-    .hero-avatar {
-      width: 220px; height: 220px;
-    }
-  }
-  @media (max-width: 991.98px) {
-    .hero-section .position-absolute {
-      /* Scale down floating badges on tablet */
-      -webkit-transform: scale(0.85);
-      transform: scale(0.85);
-    }
-  }
 
   /* ── EXPERIENCE ── */
   .exp-card {
@@ -676,67 +602,58 @@
 
 {% block extra_js %}
 <script>
-// ── Typewriter (ES5-compatible for older browsers) ──
-var titles = [
+// ── Typewriter ──
+const titles = [
   "{{ profile.title|default:'Full Stack Developer' }}",
   "Problem Solver", "Creative Thinker", "Code Artist"
 ];
-var ti=0, ci=0, del=false;
-var el = document.getElementById('typed-text');
+let ti=0, ci=0, del=false;
+const el = document.getElementById('typed-text');
 function typeWriter() {
   if(!el) return;
-  var txt = titles[ti];
+  const txt = titles[ti];
   if(!del){ el.textContent=txt.slice(0,ci+1); ci++; if(ci===txt.length){del=true;setTimeout(typeWriter,2000);return;} }
   else    { el.textContent=txt.slice(0,ci-1); ci--; if(ci===0){del=false;ti=(ti+1)%titles.length;} }
   setTimeout(typeWriter, del?60:100);
 }
 setTimeout(typeWriter, 1000);
 
-// ── Social icon hover (with touch support) ──
-var socialIcons = document.querySelectorAll('.social-icon');
-for(var si=0; si<socialIcons.length; si++){
-  (function(a){
-    a.addEventListener('mouseenter', function(){ a.style.color='#fff'; });
-    a.addEventListener('mouseleave', function(){ a.style.color='var(--text-muted)'; });
-  })(socialIcons[si]);
-}
+// ── Social icon hover ──
+document.querySelectorAll('.social-icon').forEach(a=>{
+  a.addEventListener('mouseenter',()=>a.style.color='#fff');
+  a.addEventListener('mouseleave',()=>a.style.color='var(--text-muted)');
+});
 
-// ── Project Modal (ES5-compatible) ──
-var modal = document.getElementById('projectModal');
+// ── Project Modal ──
+const modal = document.getElementById('projectModal');
 if(modal){
-  modal.addEventListener('show.bs.modal', function(e){
-    var card = e.relatedTarget;
-    if(!card) return;
-    var d = card.dataset;
+  modal.addEventListener('show.bs.modal', e=>{
+    const card = e.relatedTarget;
+    const d = card.dataset;
     document.getElementById('modalTitle').textContent = d.title;
     document.getElementById('modalDesc').textContent  = d.desc;
-    document.getElementById('modalFullLink').href = '/projects/' + d.id + '/';
+    document.getElementById('modalFullLink').href = `/projects/${d.id}/`;
 
     // Status badge
-    var statusColors = {Completed:'rgba(0,200,83,0.15);color:#00C853', Ongoing:'rgba(255,171,0,0.15);color:#FFAB00', Concept:'rgba(108,99,255,0.15);color:var(--primary)'};
-    var sc = statusColors[d.status] || statusColors.Concept;
-    document.getElementById('modalStatus').innerHTML = '<span class="badge rounded-pill" style="background:' + sc + '">' + d.status + '</span>';
+    const statusColors = {Completed:'rgba(0,200,83,0.15);color:#00C853', Ongoing:'rgba(255,171,0,0.15);color:#FFAB00', Concept:'rgba(108,99,255,0.15);color:var(--primary)'};
+    const sc = statusColors[d.status] || statusColors.Concept;
+    document.getElementById('modalStatus').innerHTML = `<span class="badge rounded-pill" style="background:${sc}">${d.status}</span>`;
 
     // Image
-    var imgWrap = document.getElementById('modalImgWrap');
+    const imgWrap = document.getElementById('modalImgWrap');
     imgWrap.innerHTML = d.img
-      ? '<img src="' + d.img + '" style="width:100%;max-height:280px;object-fit:cover" alt="' + d.title + '">'
-      : '<div style="height:180px;background:linear-gradient(135deg,rgba(108,99,255,0.2),rgba(255,101,132,0.1));display:flex;align-items:center;justify-content:center;font-size:4rem;color:var(--primary)"><i class="bi bi-code-square"></i></div>';
+      ? `<img src="${d.img}" style="width:100%;height:280px;object-fit:cover" alt="${d.title}">`
+      : `<div style="height:180px;background:linear-gradient(135deg,rgba(108,99,255,0.2),rgba(255,101,132,0.1));display:flex;align-items:center;justify-content:center;font-size:4rem;color:var(--primary)"><i class="bi bi-code-square"></i></div>`;
 
     // Tech badges
-    var techWrap = document.getElementById('modalTech');
-    var techList = d.tech.split(',');
-    var techHTML = '';
-    for(var t=0; t<techList.length; t++){
-      techHTML += '<span class="tech-badge">' + techList[t].trim() + '</span>';
-    }
-    techWrap.innerHTML = techHTML;
+    const techWrap = document.getElementById('modalTech');
+    techWrap.innerHTML = d.tech.split(',').map(t=>`<span class="tech-badge">${t.trim()}</span>`).join('');
 
     // Action links
-    var links = document.getElementById('modalLinks');
+    const links = document.getElementById('modalLinks');
     links.innerHTML = '';
-    if(d.demo) links.innerHTML += '<a href="' + d.demo + '" class="btn btn-primary btn-sm" target="_blank"><i class="bi bi-box-arrow-up-right me-1"></i>Live Demo</a>';
-    if(d.github) links.innerHTML += '<a href="' + d.github + '" class="btn btn-outline-secondary btn-sm" target="_blank"><i class="bi bi-github me-1"></i>GitHub</a>';
+    if(d.demo) links.innerHTML += `<a href="${d.demo}" class="btn btn-primary btn-sm" target="_blank"><i class="bi bi-box-arrow-up-right me-1"></i>Live Demo</a>`;
+    if(d.github) links.innerHTML += `<a href="${d.github}" class="btn btn-outline-secondary btn-sm" target="_blank"><i class="bi bi-github me-1"></i>GitHub</a>`;
   });
 }
 </script>

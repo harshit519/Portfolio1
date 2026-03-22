@@ -4,25 +4,8 @@
 
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{% block title %}{{ profile.name|default:"Harshit Tiwari" }}{% endblock %}</title>
-
-  <!-- ── Cross-Browser & Cross-Device Meta ── -->
-  <!-- iOS Safari -->
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="{{ profile.name|default:'Harshit Tiwari' }}">
-  <meta name="format-detection" content="telephone=no">
-  <!-- Android Chrome -->
-  <meta name="mobile-web-app-capable" content="yes">
-  <meta name="theme-color" content="#0A0A0F">
-  <!-- SEO / Description -->
-  <meta name="description" content="{{ profile.tagline|default:'Portfolio of Harshit Tiwari — Full Stack Developer & Designer' }}">
-  <!-- DNS Prefetch for CDN resources -->
-  <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
-  <link rel="dns-prefetch" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
   <!-- Bootstrap 5.3 -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -44,42 +27,17 @@
       --border: rgba(108, 99, 255, 0.2);
       --text-muted: #8892A4;
       --resume-banner-h: 0px;
-      /* Safe-area insets for notched devices (iPhone X+, etc.) */
-      --safe-top: env(safe-area-inset-top, 0px);
-      --safe-bottom: env(safe-area-inset-bottom, 0px);
-      --safe-left: env(safe-area-inset-left, 0px);
-      --safe-right: env(safe-area-inset-right, 0px);
     }
 
-    /* ── CSS Reset for cross-browser consistency ── */
-    *, *::before, *::after {
-      -webkit-box-sizing: border-box;
-      -moz-box-sizing: border-box;
-      box-sizing: border-box;
+    * {
       scroll-behavior: smooth;
-      -webkit-tap-highlight-color: transparent; /* Remove tap highlight on mobile */
-    }
-
-    html {
-      -webkit-text-size-adjust: 100%; /* Prevent font scaling in landscape on iOS */
-      -moz-text-size-adjust: 100%;
-      -ms-text-size-adjust: 100%;
-      text-size-adjust: 100%;
     }
 
     body {
-      font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      font-family: 'Space Grotesk', sans-serif;
       background: var(--dark);
       color: #E8E8F0;
       overflow-x: hidden;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-      text-rendering: optimizeLegibility;
-      /* iOS momentum scrolling */
-      -webkit-overflow-scrolling: touch;
-      /* Account for notched devices */
-      padding-left: var(--safe-left);
-      padding-right: var(--safe-right);
     }
 
     h1,
@@ -87,193 +45,127 @@
     h3,
     h4,
     h5 {
-      font-family: 'Syne', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-family: 'Syne', sans-serif;
       font-weight: 700;
-      overflow-wrap: break-word;
-      word-wrap: break-word;
     }
 
-    /* ── Resume Tray (slides below navbar) ── */
-    .resume-tray {
+    /* ── Resume Banner ── */
+    .resume-banner {
+      background: linear-gradient(90deg, #1a1040, #12121A, #1a1040);
+      border-bottom: 1px solid rgba(108, 99, 255, 0.35);
+      padding: 9px 0;
       position: fixed;
       top: 0;
       left: 0;
       right: 0;
-      z-index: 1040;
-      background: linear-gradient(135deg, rgba(18, 18, 26, 0.98), rgba(26, 16, 64, 0.95));
-      -webkit-backdrop-filter: blur(20px);
-      backdrop-filter: blur(20px);
-      border-bottom: 1px solid rgba(108, 99, 255, 0.3);
-      padding: 1rem 0;
-      -webkit-transform: translateY(-100%);
-      transform: translateY(-100%);
-      -webkit-transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-      transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-      opacity: 0;
-      pointer-events: none;
+      z-index: 1100;
+      animation: bannerSlide 0.6s ease-out;
     }
-    .resume-tray.open {
-      -webkit-transform: translateY(0);
-      transform: translateY(0);
-      opacity: 1;
-      pointer-events: auto;
+
+    @keyframes bannerSlide {
+      from {
+        transform: translateY(-100%);
+        opacity: 0;
+      }
+
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
     }
-    .resume-tray-inner {
-      display: -webkit-flex;
+
+    .resume-banner .inner {
       display: flex;
-      -webkit-align-items: center;
       align-items: center;
-      -webkit-justify-content: center;
       justify-content: center;
-      gap: 16px;
-      -webkit-flex-wrap: wrap;
+      gap: 14px;
       flex-wrap: wrap;
     }
-    .resume-tray-icon {
-      width: 48px; height: 48px;
-      background: linear-gradient(135deg, var(--primary), var(--accent));
-      border-radius: 14px;
-      display: -webkit-flex; display: flex;
-      -webkit-align-items: center; align-items: center;
-      -webkit-justify-content: center; justify-content: center;
-      font-size: 1.3rem;
-      color: #fff;
-      -webkit-flex-shrink: 0;
-      flex-shrink: 0;
+
+    .resume-banner .label {
+      font-size: 0.82rem;
+      color: #B0B8D0;
+      font-weight: 500;
+      letter-spacing: 0.3px;
     }
-    .resume-tray-btn {
-      display: -webkit-inline-flex;
+
+    .resume-banner .label strong {
+      color: #E8E8F0;
+    }
+
+    .resume-btn-view {
       display: inline-flex;
-      -webkit-align-items: center;
       align-items: center;
-      gap: 8px;
-      border-radius: 50px;
-      padding: 10px 24px;
-      font-size: 0.85rem;
-      font-weight: 600;
-      text-decoration: none;
-      -webkit-transition: all 0.3s;
-      transition: all 0.3s;
-      min-height: 44px;
-    }
-    .resume-tray-btn.primary {
+      gap: 6px;
       background: linear-gradient(135deg, var(--primary), #8B5CF6);
       color: #fff !important;
+      border-radius: 50px;
+      padding: 4px 16px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.3s;
       border: none;
     }
-    .resume-tray-btn.primary:hover {
-      -webkit-box-shadow: 0 8px 24px rgba(108, 99, 255, 0.4);
-      box-shadow: 0 8px 24px rgba(108, 99, 255, 0.4);
+
+    .resume-btn-view:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(108, 99, 255, 0.45);
     }
-    .resume-tray-btn.outline {
+
+    .resume-btn-dl {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
       background: transparent;
       color: var(--primary) !important;
-      border: 1px solid rgba(108, 99, 255, 0.4);
+      border: 1px solid rgba(108, 99, 255, 0.5);
+      border-radius: 50px;
+      padding: 4px 14px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.3s;
     }
-    .resume-tray-btn.outline:hover {
-      background: rgba(108, 99, 255, 0.12);
+
+    .resume-btn-dl:hover {
+      background: rgba(108, 99, 255, 0.15);
+      transform: translateY(-1px);
     }
-    .resume-tray-close {
+
+    .resume-banner .close-banner {
       position: absolute;
       right: 16px;
       top: 50%;
-      -webkit-transform: translateY(-50%);
       transform: translateY(-50%);
       background: none;
       border: none;
       color: var(--text-muted);
-      font-size: 1.1rem;
+      font-size: 1rem;
       cursor: pointer;
-      padding: 8px;
-      -webkit-transition: color 0.2s;
+      line-height: 1;
+      padding: 4px;
       transition: color 0.2s;
-      min-width: 44px;
-      min-height: 44px;
-      display: -webkit-flex; display: flex;
-      -webkit-align-items: center; align-items: center;
-      -webkit-justify-content: center; justify-content: center;
     }
-    .resume-tray-close:hover {
+
+    .resume-banner .close-banner:hover {
       color: #fff;
-    }
-    .resume-tray-overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.4);
-      z-index: 1039;
-      opacity: 0;
-      pointer-events: none;
-      -webkit-transition: opacity 0.3s;
-      transition: opacity 0.3s;
-    }
-    .resume-tray-overlay.open {
-      opacity: 1;
-      pointer-events: auto;
-    }
-
-    /* Navbar resume button pulse indicator */
-    .nav-resume-btn {
-      position: relative;
-    }
-    .nav-resume-btn::before {
-      content: '';
-      position: absolute;
-      top: 6px;
-      right: 6px;
-      width: 8px;
-      height: 8px;
-      background: #00C853;
-      border-radius: 50%;
-      -webkit-animation: resumePulse 2s ease-in-out infinite;
-      animation: resumePulse 2s ease-in-out infinite;
-    }
-    @-webkit-keyframes resumePulse {
-      0%, 100% { opacity: 1; -webkit-transform: scale(1); }
-      50% { opacity: 0.5; -webkit-transform: scale(1.4); }
-    }
-    @keyframes resumePulse {
-      0%, 100% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.5; transform: scale(1.4); }
-    }
-
-    @media (max-width: 575.98px) {
-      .resume-tray-inner {
-        -webkit-flex-direction: column;
-        flex-direction: column;
-        gap: 10px;
-        text-align: center;
-        padding: 0 40px;
-      }
-      .resume-tray-btn {
-        width: 100%;
-        -webkit-justify-content: center;
-        justify-content: center;
-        padding: 10px 20px;
-      }
-      .resume-tray-icon {
-        width: 40px; height: 40px;
-      }
     }
 
     /* ── Navbar ── */
     .navbar {
       background: rgba(10, 10, 15, 0.92) !important;
-      -webkit-backdrop-filter: blur(20px);
       backdrop-filter: blur(20px);
       border-bottom: 1px solid var(--border);
-      -webkit-transition: top 0.3s, background 0.3s;
-      -moz-transition: top 0.3s, background 0.3s;
       transition: top 0.3s, background 0.3s;
     }
 
     .navbar-brand {
-      font-family: 'Syne', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-family: 'Syne', sans-serif;
       font-weight: 800;
       font-size: 1.5rem;
-      background: -webkit-linear-gradient(135deg, var(--primary), var(--accent));
       background: linear-gradient(135deg, var(--primary), var(--accent));
       -webkit-background-clip: text;
-      background-clip: text;
       -webkit-text-fill-color: transparent;
     }
 
@@ -281,15 +173,8 @@
       color: var(--text-muted) !important;
       font-weight: 500;
       letter-spacing: 0.5px;
-      -webkit-transition: color 0.3s;
       transition: color 0.3s;
       position: relative;
-      /* Touch-friendly minimum size */
-      min-height: 44px;
-      display: -webkit-flex;
-      display: flex;
-      -webkit-align-items: center;
-      align-items: center;
     }
 
     .nav-link::after {
@@ -299,12 +184,8 @@
       left: 0;
       right: 0;
       height: 2px;
-      background: -webkit-linear-gradient(left, var(--primary), var(--accent));
       background: linear-gradient(90deg, var(--primary), var(--accent));
-      -webkit-transform: scaleX(0);
-      -ms-transform: scaleX(0);
       transform: scaleX(0);
-      -webkit-transition: -webkit-transform 0.3s;
       transition: transform 0.3s;
     }
 
@@ -315,34 +196,20 @@
 
     .nav-link:hover::after,
     .nav-link.active::after {
-      -webkit-transform: scaleX(1);
-      -ms-transform: scaleX(1);
       transform: scaleX(1);
     }
 
-    /* Buttons — touch-friendly sizing */
-    .btn {
-      min-height: 44px; /* iOS/Android touch target */
-      -webkit-appearance: none; /* Normalize iOS */
-      -moz-appearance: none;
-      appearance: none;
-    }
-
+    /* Buttons */
     .btn-primary {
-      background: -webkit-linear-gradient(315deg, var(--primary), #8B5CF6);
       background: linear-gradient(135deg, var(--primary), #8B5CF6);
       border: none;
       font-weight: 600;
       letter-spacing: 0.5px;
-      -webkit-transition: all 0.3s;
       transition: all 0.3s;
     }
 
     .btn-primary:hover {
-      -webkit-transform: translateY(-2px);
-      -ms-transform: translateY(-2px);
       transform: translateY(-2px);
-      -webkit-box-shadow: 0 8px 25px rgba(108, 99, 255, 0.4);
       box-shadow: 0 8px 25px rgba(108, 99, 255, 0.4);
     }
 
@@ -354,8 +221,6 @@
 
     .btn-outline-primary:hover {
       background: var(--primary);
-      -webkit-transform: translateY(-2px);
-      -ms-transform: translateY(-2px);
       transform: translateY(-2px);
     }
 
@@ -364,19 +229,12 @@
       background: var(--card-bg);
       border: 1px solid var(--border);
       border-radius: 16px;
-      -webkit-transition: all 0.3s;
       transition: all 0.3s;
-      /* Prevent overflow on small screens */
-      overflow: hidden;
-      max-width: 100%;
     }
 
     .card:hover {
-      -webkit-transform: translateY(-5px);
-      -ms-transform: translateY(-5px);
       transform: translateY(-5px);
       border-color: var(--primary);
-      -webkit-box-shadow: 0 20px 40px rgba(108, 99, 255, 0.15);
       box-shadow: 0 20px 40px rgba(108, 99, 255, 0.15);
     }
 
@@ -396,12 +254,9 @@
     }
 
     .gradient-text {
-      background: -webkit-linear-gradient(315deg, var(--primary), var(--accent));
       background: linear-gradient(135deg, var(--primary), var(--accent));
       -webkit-background-clip: text;
-      background-clip: text;
       -webkit-text-fill-color: transparent;
-      color: transparent; /* Fallback for browsers that don't support text-fill-color */
     }
 
     .divider-line {
@@ -538,7 +393,7 @@
       -webkit-text-fill-color: transparent;
     }
 
-    /* Scrollbar — Webkit (Chrome, Safari, Edge) */
+    /* Scrollbar */
     ::-webkit-scrollbar {
       width: 6px;
     }
@@ -552,20 +407,11 @@
       border-radius: 3px;
     }
 
-    /* Scrollbar — Firefox */
-    html {
-      scrollbar-width: thin;
-      scrollbar-color: var(--primary) var(--dark);
-    }
-
     /* Fresher badge */
     .fresher-badge {
-      display: -webkit-inline-flex;
       display: inline-flex;
-      -webkit-align-items: center;
       align-items: center;
       gap: 8px;
-      background: -webkit-linear-gradient(315deg, rgba(0, 200, 83, 0.12), rgba(0, 230, 118, 0.06));
       background: linear-gradient(135deg, rgba(0, 200, 83, 0.12), rgba(0, 230, 118, 0.06));
       border: 1px solid rgba(0, 200, 83, 0.3);
       border-radius: 50px;
@@ -585,180 +431,6 @@
       background: rgba(255, 82, 82, 0.15) !important;
       border-left: 3px solid #FF5252 !important;
     }
-
-    /* ══════════════════════════════════════════════════════
-       RESPONSIVE DESIGN — Mobile, Tablet, Desktop
-       ══════════════════════════════════════════════════════ */
-
-    /* ── Extra Small: Phones Portrait (<= 576px) ── */
-    @media (max-width: 575.98px) {
-      .navbar-brand {
-        font-size: 1.25rem;
-      }
-      .display-5 {
-        font-size: 1.65rem !important;
-      }
-      .display-6 {
-        font-size: 1.35rem !important;
-      }
-      .page-hero {
-        padding: 60px 0 40px;
-      }
-      .stat-number {
-        font-size: 1.8rem;
-      }
-      .section-badge {
-        font-size: 0.7rem;
-        padding: 5px 14px;
-        letter-spacing: 1.5px;
-      }
-      .tech-badge {
-        font-size: 0.7rem;
-        padding: 3px 10px;
-      }
-      footer .social-link {
-        width: 36px;
-        height: 36px;
-      }
-      /* Prevent horizontal overflow on all containers */
-      .container {
-        padding-left: 16px;
-        padding-right: 16px;
-      }
-      /* Fix timeline for small screens */
-      .timeline::before {
-        left: 14px;
-      }
-      .timeline-item {
-        padding-left: 44px;
-      }
-      .timeline-dot {
-        left: 6px;
-        width: 14px;
-        height: 14px;
-        top: 10px;
-      }
-    }
-
-    /* ── Small: Phones Landscape (576px – 767px) ── */
-    @media (min-width: 576px) and (max-width: 767.98px) {
-      .display-5 {
-        font-size: 2rem !important;
-      }
-      .display-6 {
-        font-size: 1.6rem !important;
-      }
-      .page-hero {
-        padding: 70px 0 50px;
-      }
-    }
-
-    /* ── Medium: Tablets (768px – 991px) ── */
-    @media (min-width: 768px) and (max-width: 991.98px) {
-      .page-hero {
-        padding: 75px 0 55px;
-      }
-    }
-
-    /* ── Mobile-first collapse menu adjustments ── */
-    @media (max-width: 991.98px) {
-      .navbar-collapse {
-        background: rgba(10, 10, 15, 0.98);
-        border-radius: 0 0 16px 16px;
-        padding: 1rem;
-        margin-top: 0.5rem;
-        border: 1px solid var(--border);
-        border-top: none;
-        -webkit-backdrop-filter: blur(20px);
-        backdrop-filter: blur(20px);
-      }
-      .navbar-nav {
-        gap: 0 !important;
-      }
-      .nav-link {
-        padding: 12px 16px !important;
-        border-radius: 8px;
-        min-height: 48px;
-      }
-      .nav-link:hover {
-        background: rgba(108, 99, 255, 0.1);
-      }
-      .nav-link::after {
-        display: none; /* Remove underline animation in mobile menu */
-      }
-      .navbar .btn {
-        margin-top: 0.5rem;
-        margin-left: 0 !important;
-        width: 100%;
-        text-align: center;
-      }
-    }
-
-    /* ── Touch device: disable hover transforms to prevent jank ── */
-    @media (hover: none) and (pointer: coarse) {
-      .card:hover {
-        -webkit-transform: none;
-        transform: none;
-      }
-      .btn-primary:hover {
-        -webkit-transform: none;
-        transform: none;
-      }
-      .btn-outline-primary:hover {
-        -webkit-transform: none;
-        transform: none;
-      }
-      footer .social-link:hover {
-        -webkit-transform: none;
-        transform: none;
-      }
-    }
-
-    /* ── Accessibility: Reduced motion ── */
-    @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after {
-        -webkit-animation-duration: 0.01ms !important;
-        animation-duration: 0.01ms !important;
-        -webkit-animation-iteration-count: 1 !important;
-        animation-iteration-count: 1 !important;
-        -webkit-transition-duration: 0.01ms !important;
-        transition-duration: 0.01ms !important;
-        scroll-behavior: auto !important;
-      }
-    }
-
-    /* ── Print styles ── */
-    @media print {
-      .navbar, .resume-tray, .resume-tray-overlay, footer, .btn {
-        display: none !important;
-      }
-      body {
-        background: #fff;
-        color: #000;
-      }
-      .card {
-        border: 1px solid #ccc;
-        background: #fff;
-      }
-    }
-
-    /* ── Image responsiveness ── */
-    img {
-      max-width: 100%;
-      height: auto;
-    }
-
-    /* ── Fix input zoom on iOS (fonts < 16px trigger zoom) ── */
-    @media screen and (max-width: 767px) {
-      input[type="text"],
-      input[type="email"],
-      input[type="tel"],
-      input[type="url"],
-      textarea,
-      select {
-        font-size: 16px !important;
-      }
-    }
   </style>
 
   {% block extra_css %}{% endblock %}
@@ -767,28 +439,23 @@
 <body>
 
   {% if profile and profile.resume %}
-  <!-- ══ RESUME TRAY (hidden by default, toggled by navbar button) ══ -->
-  <div class="resume-tray-overlay" id="resumeOverlay"></div>
-  <div class="resume-tray" id="resumeTray">
+  <!-- ══ RESUME BANNER ══ -->
+  <div class="resume-banner" id="resumeBanner">
     <div class="container position-relative">
-      <div class="resume-tray-inner">
-        <div class="resume-tray-icon">
-          <i class="bi bi-file-earmark-person-fill"></i>
-        </div>
-        <div class="text-center text-sm-start">
-          <div class="fw-bold" style="color:#E8E8F0;font-size:0.95rem">{{ profile.name|default:"Harshit Tiwari" }}'s Resume</div>
-          <div style="color:var(--text-muted);font-size:0.78rem">Ready to view or download</div>
-        </div>
-        <div class="d-flex gap-2 flex-wrap justify-content-center">
-          <a href="{{ profile.resume.url }}" class="resume-tray-btn primary" target="_blank" rel="noopener">
-            <i class="bi bi-eye-fill"></i> View Resume
-          </a>
-          <a href="{{ profile.resume.url }}" class="resume-tray-btn outline" download>
-            <i class="bi bi-download"></i> Download PDF
-          </a>
-        </div>
+      <div class="inner">
+        <span class="label">
+          <i class="bi bi-file-earmark-person-fill me-1" style="color:var(--primary)"></i>
+          <strong>{{ profile.name|default:"Harshit Tiwari" }}'s Resume</strong>
+          &nbsp;is available
+        </span>
+        <a href="{{ profile.resume.url }}" class="resume-btn-view" target="_blank" rel="noopener">
+          <i class="bi bi-eye-fill"></i> View Resume
+        </a>
+        <a href="{{ profile.resume.url }}" class="resume-btn-dl" download>
+          <i class="bi bi-download"></i> Download PDF
+        </a>
       </div>
-      <button class="resume-tray-close" id="resumeTrayClose" aria-label="Close">
+      <button class="close-banner" id="closeBanner" aria-label="Close">
         <i class="bi bi-x-lg"></i>
       </button>
     </div>
@@ -827,9 +494,9 @@
               href="{% url 'contact' %}">Contact</a></li>
         </ul>
         {% if profile and profile.resume %}
-        <button class="btn btn-primary btn-sm ms-3 px-4 nav-resume-btn" id="navResumeToggle" type="button">
+        <a href="{{ profile.resume.url }}" class="btn btn-primary btn-sm ms-3 px-4" target="_blank">
           <i class="bi bi-file-earmark-text me-1"></i>Resume
-        </button>
+        </a>
         {% endif %}
       </div>
     </div>
@@ -896,137 +563,71 @@
   <script src="https://cdn.jsdelivr.net/npm/countup.js@2.8.0/dist/countUp.umd.js"></script>
 
   <script>
-    // ── Check for reduced motion preference ──
-    var prefersReducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    AOS.init({ duration: 800, once: true, easing: 'ease-out-cubic' });
 
-    AOS.init({
-      duration: prefersReducedMotion ? 0 : 800,
-      once: true,
-      easing: 'ease-out-cubic',
-      disable: prefersReducedMotion ? true : false
-    });
+    // ── Resume banner + navbar offset ──
+    const banner = document.getElementById('resumeBanner');
+    const closeBtn = document.getElementById('closeBanner');
+    const nav = document.getElementById('mainNav');
+    const main = document.getElementById('mainContent');
 
-    // ── Navbar stays at top: 0 always ──
-    var nav = document.getElementById('mainNav');
-    var main = document.getElementById('mainContent');
-
-    function setNavOffset() {
-      var nh = nav ? nav.offsetHeight : 0;
-      if (main) main.style.paddingTop = nh + 'px';
+    function setOffsets() {
+      const bh = banner && banner.offsetHeight || 0;
+      const nh = nav && nav.offsetHeight || 0;
+      if (nav) nav.style.top = bh + 'px';
+      if (main) main.style.paddingTop = (bh + nh) + 'px';
     }
-    setNavOffset();
-    window.addEventListener('resize', setNavOffset);
-    window.addEventListener('orientationchange', function() {
-      setTimeout(setNavOffset, 100);
-    });
+    setOffsets();
+    window.addEventListener('resize', setOffsets);
 
-    // ── Resume Tray toggle ──
-    var resumeTray = document.getElementById('resumeTray');
-    var resumeOverlay = document.getElementById('resumeOverlay');
-    var resumeToggle = document.getElementById('navResumeToggle');
-    var resumeClose = document.getElementById('resumeTrayClose');
-
-    function openResumeTray() {
-      if (!resumeTray) return;
-      // Position tray below navbar
-      var nh = nav ? nav.offsetHeight : 0;
-      resumeTray.style.top = nh + 'px';
-      resumeTray.classList.add('open');
-      if (resumeOverlay) {
-        resumeOverlay.style.top = nh + 'px';
-        resumeOverlay.classList.add('open');
-      }
-    }
-    function closeResumeTray() {
-      if (!resumeTray) return;
-      resumeTray.classList.remove('open');
-      if (resumeOverlay) resumeOverlay.classList.remove('open');
-    }
-
-    if (resumeToggle) {
-      resumeToggle.addEventListener('click', function() {
-        if (resumeTray && resumeTray.classList.contains('open')) {
-          closeResumeTray();
-        } else {
-          openResumeTray();
-        }
-      });
-    }
-    if (resumeClose) {
-      resumeClose.addEventListener('click', closeResumeTray);
-    }
-    if (resumeOverlay) {
-      resumeOverlay.addEventListener('click', closeResumeTray);
-    }
-
-    // ── Close mobile navbar on link click ──
-    var navLinks = document.querySelectorAll('#navMain .nav-link');
-    var navCollapse = document.getElementById('navMain');
-    for (var i = 0; i < navLinks.length; i++) {
-      navLinks[i].addEventListener('click', function() {
-        if (navCollapse && navCollapse.classList.contains('show')) {
-          var bsCollapse = bootstrap.Collapse.getInstance(navCollapse);
-          if (bsCollapse) bsCollapse.hide();
-        }
+    if (closeBtn) {
+      closeBtn.addEventListener('click', () => {
+        banner.style.transition = 'opacity 0.3s, transform 0.3s';
+        banner.style.opacity = '0';
+        banner.style.transform = 'translateY(-100%)';
+        setTimeout(() => {
+          banner.style.display = 'none';
+          setOffsets();
+        }, 300);
       });
     }
 
-    // ── Animate skill bars on scroll (with passive listener) ──
+    // ── Animate skill bars on scroll ──
     function animateSkillBars() {
-      var bars = document.querySelectorAll('.skill-bar .progress-bar');
-      for (var j = 0; j < bars.length; j++) {
-        var bar = bars[j];
-        var val = bar.getAttribute('data-value');
-        var rect = bar.getBoundingClientRect();
+      document.querySelectorAll('.skill-bar .progress-bar').forEach(bar => {
+        const val = bar.getAttribute('data-value');
+        const rect = bar.getBoundingClientRect();
         if (rect.top < window.innerHeight && !bar.classList.contains('animated')) {
           bar.style.width = val + '%';
           bar.classList.add('animated');
         }
-      }
+      });
     }
-    window.addEventListener('scroll', animateSkillBars, { passive: true });
+    window.addEventListener('scroll', animateSkillBars);
     setTimeout(animateSkillBars, 500);
 
-    // ── Counter animations (with IntersectionObserver fallback) ──
-    if ('IntersectionObserver' in window) {
-      var countElements = document.querySelectorAll('[data-count]');
-      for (var k = 0; k < countElements.length; k++) {
-        (function(el) {
-          var observer = new IntersectionObserver(function(entries) {
-            for (var m = 0; m < entries.length; m++) {
-              if (entries[m].isIntersecting) {
-                if (typeof countUp !== 'undefined' && countUp.CountUp) {
-                  var cu = new countUp.CountUp(el, parseInt(el.getAttribute('data-count')), { duration: 2.5 });
-                  cu.start();
-                } else {
-                  // Fallback: just set the number directly
-                  el.textContent = el.getAttribute('data-count');
-                }
-                observer.unobserve(el);
-              }
-            }
-          });
-          observer.observe(el);
-        })(countElements[k]);
-      }
-    } else {
-      // Fallback for older browsers without IntersectionObserver
-      var fallbackElements = document.querySelectorAll('[data-count]');
-      for (var n = 0; n < fallbackElements.length; n++) {
-        fallbackElements[n].textContent = fallbackElements[n].getAttribute('data-count');
-      }
-    }
+    // ── Counter animations ──
+    document.querySelectorAll('[data-count]').forEach(el => {
+      const observer = new IntersectionObserver(entries => {
+        entries.forEach(e => {
+          if (e.isIntersecting) {
+            const cu = new countUp.CountUp(el, parseInt(el.getAttribute('data-count')), { duration: 2.5 });
+            cu.start();
+            observer.unobserve(el);
+          }
+        });
+      });
+      observer.observe(el);
+    });
 
-    // ── Navbar scroll tint (with passive listener) ──
-    window.addEventListener('scroll', function() {
-      if (nav) {
-        if (window.scrollY > 50) {
-          nav.style.background = 'rgba(6,6,13,0.98)';
-        } else {
-          nav.style.background = 'rgba(10,10,15,0.92)';
-        }
+    // ── Navbar scroll tint ──
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 50) {
+        nav.style.background = 'rgba(6,6,13,0.98)';
+      } else {
+        nav.style.background = 'rgba(10,10,15,0.92)';
       }
-    }, { passive: true });
+    });
   </script>
   {% block extra_js %}{% endblock %}
 </body>

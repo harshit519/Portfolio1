@@ -1,29 +1,6 @@
 {% extends 'base.html' %}
 {% block title %}Experience — {{ profile.name|default:"Harshit Tiwari" }}{% endblock %}
 
-{% block extra_css %}
-<style>
-  @media (max-width: 575.98px) {
-    .exp-fresher-cta {
-      display: flex !important;
-      flex-direction: column;
-      gap: 0.75rem;
-    }
-    .exp-fresher-cta .btn {
-      width: 100%;
-      margin-right: 0 !important;
-    }
-    .exp-fresher-card .p-5 {
-      padding: 1.5rem !important;
-    }
-    .exp-fresher-card .display-6,
-    .exp-fresher-card h3 {
-      font-size: 1.3rem !important;
-    }
-  }
-</style>
-{% endblock %}
-
 {% block content %}
 <div class="page-hero">
   <div class="container text-center" data-aos="fade-up">
@@ -38,7 +15,7 @@
     {% if is_fresher %}
     <div class="row justify-content-center">
       <div class="col-lg-8">
-        <div class="card p-0 overflow-hidden mb-5 exp-fresher-card" style="border-color:rgba(0,200,83,0.35)" data-aos="zoom-in">
+        <div class="card p-0 overflow-hidden mb-5" style="border-color:rgba(0,200,83,0.35)" data-aos="zoom-in">
           <div style="height:4px;background:linear-gradient(90deg,#00C853,#69F0AE,var(--primary))"></div>
           <div class="p-5 text-center">
             <div class="mx-auto mb-4 d-flex align-items-center justify-content-center rounded-circle"
@@ -63,14 +40,12 @@
               </div>
               {% endfor %}
             </div>
-            <div class="exp-fresher-cta">
             <a href="{% url 'contact' %}" class="btn btn-primary btn-lg px-5 me-2">
               <i class="bi bi-send me-2"></i>Give Me My First Opportunity
             </a>
             <a href="{% url 'projects' %}" class="btn btn-outline-primary btn-lg px-5">
               <i class="bi bi-grid-3x3-gap me-2"></i>See My Projects
             </a>
-            </div>
           </div>
         </div>
       </div>
