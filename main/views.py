@@ -10,6 +10,7 @@ def home(request):
     featured_projects = Project.objects.filter(featured=True)[:3]
     services = Service.objects.all()[:6]
     skills = Skill.objects.all()[:10]
+    total_skills = Skill.objects.count()
     testimonials = Testimonial.objects.filter(featured=True)[:4]
     experiences = Experience.objects.all()
     certificates = Certificate.objects.all()
@@ -19,6 +20,7 @@ def home(request):
         'featured_projects': featured_projects,
         'services': services,
         'skills': skills,
+        'total_skills': total_skills,
         'testimonials': testimonials,
         'experiences': experiences,
         'certificates': certificates,

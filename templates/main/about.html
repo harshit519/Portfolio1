@@ -32,6 +32,7 @@
             <i class="bi bi-person-fill" style="font-size:8rem;color:var(--primary);opacity:0.6"></i>
           </div>
           {% endif %}
+          {% if profile.years_experience > 0 %}
           <div class="position-absolute" style="bottom:20px;right:-20px;background:var(--card-bg);border:1px solid var(--border);border-radius:16px;padding:1rem 1.5rem" data-aos="zoom-in" data-aos-delay="200">
             <div class="d-flex align-items-center gap-3">
               <div class="rounded-circle d-flex align-items-center justify-content-center" style="width:48px;height:48px;background:linear-gradient(135deg,var(--primary),var(--accent))">
@@ -43,6 +44,7 @@
               </div>
             </div>
           </div>
+          {% endif %}
         </div>
       </div>
       <div class="col-lg-7" data-aos="fade-left">
