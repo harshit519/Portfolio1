@@ -8,6 +8,7 @@
     border: 1px solid var(--border);
     border-radius: 20px;
     overflow: hidden;
+    position: relative;
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   }
   .project-card-full:hover { transform: translateY(-8px); border-color: var(--primary); box-shadow: 0 25px 50px rgba(108,99,255,0.2); }
@@ -29,11 +30,13 @@
   }
   .project-overlay {
     position: absolute;
-    inset: 0;
+    top: 0; right: 0; bottom: 0; left: 0;
     background: linear-gradient(to top, rgba(10,10,15,0.9), transparent);
     opacity: 0;
     transition: opacity 0.3s;
     display: flex; align-items: flex-end; padding: 1rem;
+    pointer-events: none;
+    z-index: 2;
   }
   .project-card-full:hover .project-overlay { opacity: 1; }
   .filter-btn {
@@ -51,6 +54,10 @@
     background: linear-gradient(135deg, var(--primary), #8B5CF6);
     color: white;
     border-color: transparent;
+  }
+  /* Touch devices: show overlay on tap since no hover */
+  @media (hover: none) and (pointer: coarse) {
+    .project-overlay { opacity: 1; }
   }
 </style>
 {% endblock %}
@@ -87,12 +94,12 @@
             <div class="project-overlay">
               <div class="d-flex gap-2">
                 {% if project.demo_url %}
-                <a href="{{ project.demo_url }}" class="btn btn-sm btn-primary" target="_blank">
+                <a href="{{ project.demo_url }}" class="btn btn-sm btn-primary position-relative" style="pointer-events: auto; z-index: 3;" target="_blank">
                   <i class="bi bi-box-arrow-up-right me-1"></i>Demo
                 </a>
                 {% endif %}
                 {% if project.github_url %}
-                <a href="{{ project.github_url }}" class="btn btn-sm btn-outline-light" target="_blank">
+                <a href="{{ project.github_url }}" class="btn btn-sm btn-outline-light position-relative" style="pointer-events: auto; z-index: 3;" target="_blank">
                   <i class="bi bi-github me-1"></i>Code
                 </a>
                 {% endif %}
@@ -101,7 +108,13 @@
           </div>
           <div class="p-4">
             <div class="d-flex flex-wrap gap-2 mb-2">
-              <span class="badge rounded-pill" style="background:{% if project.status == 'completed' %}rgba(0,200,83,0.15);color:#00C853{% elif project.status == 'ongoing' %}rgba(255,171,0,0.15);color:#FFAB00{% else %}rgba(108,99,255,0.15);color:var(--primary){% endif %}">
+              {% if project.status == 'completed' %}
+              <span class="badge rounded-pill" style="background:rgba(0,200,83,0.15);color:#00C853">
+              {% elif project.status == 'ongoing' %}
+              <span class="badge rounded-pill" style="background:rgba(255,171,0,0.15);color:#FFAB00">
+              {% else %}
+              <span class="badge rounded-pill" style="background:rgba(108,99,255,0.15);color:var(--primary)">
+              {% endif %}
                 {{ project.get_status_display }}
               </span>
               {% if project.featured %}
@@ -110,7 +123,9 @@
               </span>
               {% endif %}
             </div>
-            <h5 class="fw-bold mb-2">{{ project.title }}</h5>
+            <h5 class="fw-bold mb-2">
+              <a href="{% url 'project_detail' project.pk %}" class="text-decoration-none text-reset stretched-link">{{ project.title }}</a>
+            </h5>
             <p class="small mb-3" style="color:var(--text-muted);line-height:1.7">{{ project.short_description }}</p>
             <div class="d-flex flex-wrap gap-1">
               {% for tech in project.get_tech_list %}

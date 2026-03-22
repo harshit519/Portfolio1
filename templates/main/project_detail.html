@@ -8,7 +8,13 @@
       <i class="bi bi-arrow-left me-1"></i> Back to Projects
     </a>
     <div class="d-flex flex-wrap align-items-center gap-3 mb-2">
-      <span class="badge rounded-pill px-3 py-2" style="background:{% if project.status == 'completed' %}rgba(0,200,83,0.15);color:#00C853;border:1px solid rgba(0,200,83,0.3){% elif project.status == 'ongoing' %}rgba(255,171,0,0.15);color:#FFAB00;border:1px solid rgba(255,171,0,0.3){% else %}rgba(108,99,255,0.15);color:var(--primary);border:1px solid var(--border){% endif %}">
+      {% if project.status == 'completed' %}
+      <span class="badge rounded-pill px-3 py-2" style="background:rgba(0,200,83,0.15);color:#00C853;border:1px solid rgba(0,200,83,0.3)">
+      {% elif project.status == 'ongoing' %}
+      <span class="badge rounded-pill px-3 py-2" style="background:rgba(255,171,0,0.15);color:#FFAB00;border:1px solid rgba(255,171,0,0.3)">
+      {% else %}
+      <span class="badge rounded-pill px-3 py-2" style="background:rgba(108,99,255,0.15);color:var(--primary);border:1px solid var(--border)">
+      {% endif %}
         {{ project.get_status_display }}
       </span>
       {% if project.featured %}<span class="badge rounded-pill px-3 py-2" style="background:rgba(255,101,132,0.15);color:var(--accent);border:1px solid rgba(255,101,132,0.3)"><i class="bi bi-star-fill me-1"></i>Featured</span>{% endif %}
