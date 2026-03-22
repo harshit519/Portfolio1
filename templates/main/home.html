@@ -6,7 +6,11 @@
   /* ── HERO ── */
   .hero-section {
     min-height: 100vh;
+    min-height: -webkit-fill-available;
+    min-height: 100dvh;
+    display: -webkit-flex;
     display: flex;
+    -webkit-align-items: center;
     align-items: center;
     position: relative;
     overflow: hidden;
@@ -14,7 +18,7 @@
   }
   .hero-section::before {
     content: '';
-    position: absolute; inset: 0;
+    position: absolute; top: 0; right: 0; bottom: 0; left: 0;
     background-image: linear-gradient(rgba(108,99,255,0.04) 1px, transparent 1px),
                       linear-gradient(90deg, rgba(108,99,255,0.04) 1px, transparent 1px);
     background-size: 60px 60px;
@@ -37,8 +41,8 @@
     content:''; position:absolute; border-radius:50%;
     animation: pulse-ring 3s ease-in-out infinite;
   }
-  .avatar-ring::before { inset:-15px; border:2px solid rgba(108,99,255,0.3); }
-  .avatar-ring::after  { inset:-30px; border:1px solid rgba(255,101,132,0.2); animation-delay:1s; }
+  .avatar-ring::before { top:-15px; right:-15px; bottom:-15px; left:-15px; border:2px solid rgba(108,99,255,0.3); }
+  .avatar-ring::after  { top:-30px; right:-30px; bottom:-30px; left:-30px; border:1px solid rgba(255,101,132,0.2); animation-delay:1s; }
   @keyframes pulse-ring {
     0%,100%{ opacity:1; transform:scale(1); }
     50%    { opacity:0.4; transform:scale(1.05); }
@@ -104,7 +108,8 @@
     font-family: 'Syne', sans-serif;
     font-size: 2.2rem; font-weight: 800;
     background: linear-gradient(135deg, var(--primary), var(--accent));
-    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent; color: transparent;
   }
 
   /* ── SKILLS PREVIEW ── */
@@ -139,7 +144,7 @@
     font-size: 3.5rem; color: var(--primary);
   }
   .proj-overlay {
-    position:absolute; inset:0;
+    position:absolute; top:0; right:0; bottom:0; left:0;
     background:linear-gradient(to top, rgba(10,10,15,0.95), transparent 60%);
     opacity:0; transition:opacity 0.3s;
     display:flex; align-items:flex-end; padding:1rem;
@@ -218,6 +223,23 @@
   .modal-header { border-bottom: 1px solid var(--border) !important; }
   .modal-footer { border-top: 1px solid var(--border) !important; }
   .modal-backdrop.show { opacity: 0.7 !important; }
+
+  /* ── Mobile compatibility ── */
+  @media (max-width: 575.98px) {
+    .hero-avatar { width: 200px; height: 200px; }
+    .hero-section .position-absolute { display: none; }
+    .resume-hero-card { min-width: 0 !important; }
+  }
+  @media (max-width: 991.98px) {
+    .hero-section .col-lg-6.text-center { margin-top: 2rem; }
+  }
+  /* Touch devices: show project overlay since no hover */
+  @media (hover: none) and (pointer: coarse) {
+    .proj-overlay { opacity: 1; }
+    .proj-card:hover { transform: none; }
+    .service-card:hover { transform: none; }
+    .exp-card:hover { transform: none; }
+  }
 </style>
 {% endblock %}
 
@@ -303,7 +325,7 @@
             <div class="rounded-3 px-3 py-2 shadow-lg" style="background:linear-gradient(135deg,var(--primary),#8B5CF6)">
               <div class="d-flex align-items-center gap-2">
                 <i class="bi bi-code-slash text-white"></i>
-                <span class="text-white small fw-bold">Full Stack</span>
+                <span class="text-white small fw-bold">Python Developer</span>
               </div>
             </div>
           </div>

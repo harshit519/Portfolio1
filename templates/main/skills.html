@@ -38,6 +38,11 @@
     color: white;
     border-color: transparent;
   }
+  /* Touch devices: disable hover transforms that feel sticky */
+  @media (hover: none) and (pointer: coarse) {
+    .skill-pill:hover { transform: none; }
+    .skill-pill:hover::before { transform: scaleY(0); }
+  }
 </style>
 {% endblock %}
 

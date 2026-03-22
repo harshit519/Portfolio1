@@ -30,7 +30,7 @@
   }
   .project-overlay {
     position: absolute;
-    inset: 0;
+    top: 0; right: 0; bottom: 0; left: 0;
     background: linear-gradient(to top, rgba(10,10,15,0.9), transparent);
     opacity: 0;
     transition: opacity 0.3s;
@@ -54,6 +54,10 @@
     background: linear-gradient(135deg, var(--primary), #8B5CF6);
     color: white;
     border-color: transparent;
+  }
+  /* Touch devices: show overlay on tap since no hover */
+  @media (hover: none) and (pointer: coarse) {
+    .project-overlay { opacity: 1; }
   }
 </style>
 {% endblock %}

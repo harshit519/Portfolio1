@@ -4,7 +4,9 @@
 
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="color-scheme" content="dark">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>{% block title %}{{ profile.name|default:"Harshit Tiwari" }}{% endblock %}</title>
 
   <!-- Bootstrap 5.3 -->
@@ -29,8 +31,10 @@
       --resume-banner-h: 0px;
     }
 
-    * {
+    html {
       scroll-behavior: smooth;
+      scrollbar-width: thin;
+      scrollbar-color: var(--primary) var(--dark);
     }
 
     body {
@@ -38,6 +42,10 @@
       background: var(--dark);
       color: #E8E8F0;
       overflow-x: hidden;
+      -webkit-text-size-adjust: 100%;
+      -webkit-tap-highlight-color: transparent;
+      padding-left: env(safe-area-inset-left);
+      padding-right: env(safe-area-inset-right);
     }
 
     h1,
@@ -145,6 +153,11 @@
       cursor: pointer;
       line-height: 1;
       padding: 4px;
+      min-width: 44px;
+      min-height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       transition: color 0.2s;
     }
 
@@ -155,6 +168,7 @@
     /* ── Navbar ── */
     .navbar {
       background: rgba(10, 10, 15, 0.92) !important;
+      -webkit-backdrop-filter: blur(20px);
       backdrop-filter: blur(20px);
       border-bottom: 1px solid var(--border);
       transition: top 0.3s, background 0.3s;
@@ -166,7 +180,9 @@
       font-size: 1.5rem;
       background: linear-gradient(135deg, var(--primary), var(--accent));
       -webkit-background-clip: text;
+      background-clip: text;
       -webkit-text-fill-color: transparent;
+      color: transparent;
     }
 
     .nav-link {
@@ -256,7 +272,9 @@
     .gradient-text {
       background: linear-gradient(135deg, var(--primary), var(--accent));
       -webkit-background-clip: text;
+      background-clip: text;
       -webkit-text-fill-color: transparent;
+      color: transparent;
     }
 
     .divider-line {
@@ -287,6 +305,7 @@
     footer {
       background: #06060D;
       border-top: 1px solid var(--border);
+      padding-bottom: env(safe-area-inset-bottom);
     }
 
     footer .social-link {
@@ -390,7 +409,9 @@
       font-weight: 800;
       background: linear-gradient(135deg, var(--primary), var(--accent));
       -webkit-background-clip: text;
+      background-clip: text;
       -webkit-text-fill-color: transparent;
+      color: transparent;
     }
 
     /* Scrollbar */
@@ -431,6 +452,30 @@
       background: rgba(255, 82, 82, 0.15) !important;
       border-left: 3px solid #FF5252 !important;
     }
+
+    /* ── Touch devices: disable sticky hover states ── */
+    @media (hover: none) and (pointer: coarse) {
+      .card:hover {
+        transform: none;
+        box-shadow: none;
+      }
+    }
+
+    /* ── Accessibility: Respect user motion preferences ── */
+    @media (prefers-reduced-motion: reduce) {
+
+      *,
+      *::before,
+      *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+
+      html {
+        scroll-behavior: auto;
+      }
+    }
   </style>
 
   {% block extra_css %}{% endblock %}
@@ -466,8 +511,14 @@
   <nav class="navbar navbar-expand-lg fixed-top" id="mainNav">
     <div class="container">
       <a class="navbar-brand" href="{% url 'home' %}">
-        {% if profile %}{{ profile.name|default:"Harshit Tiwari"|truncatechars:2 }}{% else %}HT{% endif %}<span
-          style="color:#fff;-webkit-text-fill-color:#fff">.</span>
+        {% if profile %}
+        {% for word in profile.name.split %}
+        {{ word.0 }}
+        {% endfor %}
+        {% else %}
+        HT
+        {% endif %}
+        <span style="color:#fff;-webkit-text-fill-color:#fff">.</span>
       </a>
       <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navMain">
         <i class="bi bi-list fs-4" style="color:var(--primary)"></i>
@@ -527,7 +578,7 @@
       <div class="row align-items-center">
         <div class="col-md-4 text-center text-md-start mb-3 mb-md-0">
           <div class="navbar-brand mb-1"
-            style="font-family:'Syne',sans-serif;font-weight:800;font-size:1.4rem;background:linear-gradient(135deg,var(--primary),var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent;">
+            style="font-family:'Syne',sans-serif;font-weight:800;font-size:1.4rem;background:linear-gradient(135deg,var(--primary),var(--accent));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;">
             {{ profile.name|default:"Harshit Tiwari" }}
           </div>
           <p class="mb-0 small" style="color:var(--text-muted)">
@@ -563,7 +614,7 @@
   <script src="https://cdn.jsdelivr.net/npm/countup.js@2.8.0/dist/countUp.umd.js"></script>
 
   <script>
-    AOS.init({ duration: 800, once: true, easing: 'ease-out-cubic' });
+    AOS.init({ duration: 800, once: true, easing: 'ease-out-cubic', disableMutationObserver: true });
 
     // ── Resume banner + navbar offset ──
     const banner = document.getElementById('resumeBanner');
@@ -578,7 +629,7 @@
       if (main) main.style.paddingTop = (bh + nh) + 'px';
     }
     setOffsets();
-    window.addEventListener('resize', setOffsets);
+    window.addEventListener('resize', setOffsets, { passive: true });
 
     if (closeBtn) {
       closeBtn.addEventListener('click', () => {
@@ -603,7 +654,7 @@
         }
       });
     }
-    window.addEventListener('scroll', animateSkillBars);
+    window.addEventListener('scroll', animateSkillBars, { passive: true });
     setTimeout(animateSkillBars, 500);
 
     // ── Counter animations ──
@@ -627,7 +678,7 @@
       } else {
         nav.style.background = 'rgba(10,10,15,0.92)';
       }
-    });
+    }, { passive: true });
   </script>
   {% block extra_js %}{% endblock %}
 </body>

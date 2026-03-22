@@ -1,5 +1,13 @@
 {% extends 'base.html' %}
 {% block title %}About — {{ profile.name|default:"Portfolio" }}{% endblock %}
+{% block extra_css %}
+<style>
+  @media (max-width: 575.98px) {
+    .about-avatar-wrap .position-absolute { display: none; }
+  }
+</style>
+{% endblock %}
+
 {% block content %}
 
 <div class="page-hero">
@@ -16,7 +24,7 @@
   <div class="container">
     <div class="row gy-5 align-items-center">
       <div class="col-lg-5" data-aos="fade-right">
-        <div class="position-relative">
+        <div class="position-relative about-avatar-wrap">
           {% if profile.avatar %}
           <img src="{{ profile.avatar.url }}" class="img-fluid rounded-4 glow-purple" alt="{{ profile.name }}" style="width:100%;max-width:420px">
           {% else %}
