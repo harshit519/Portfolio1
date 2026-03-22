@@ -10,32 +10,55 @@
     overflow: hidden;
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   }
-  .project-card-full:hover { transform: translateY(-8px); border-color: var(--primary); box-shadow: 0 25px 50px rgba(108,99,255,0.2); }
+
+  .project-card-full:hover {
+    transform: translateY(-8px);
+    border-color: var(--primary);
+    box-shadow: 0 25px 50px rgba(108, 99, 255, 0.2);
+  }
+
   .project-img-wrap {
     position: relative;
     overflow: hidden;
     height: 250px;
   }
-  .project-img-wrap img, .project-img-wrap .placeholder-img {
-    width: 100%; height: 100%;
+
+  .project-img-wrap img,
+  .project-img-wrap .placeholder-img {
+    width: 100%;
+    height: 100%;
     object-fit: cover;
     transition: transform 0.4s;
   }
-  .project-card-full:hover .project-img-wrap img { transform: scale(1.05); }
-  .placeholder-img {
-    background: linear-gradient(135deg, rgba(108,99,255,0.2), rgba(255,101,132,0.1));
-    display: flex; align-items: center; justify-content: center;
-    font-size: 4rem; color: var(--primary);
+
+  .project-card-full:hover .project-img-wrap img {
+    transform: scale(1.05);
   }
+
+  .placeholder-img {
+    background: linear-gradient(135deg, rgba(108, 99, 255, 0.2), rgba(255, 101, 132, 0.1));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 4rem;
+    color: var(--primary);
+  }
+
   .project-overlay {
     position: absolute;
     inset: 0;
-    background: linear-gradient(to top, rgba(10,10,15,0.9), transparent);
+    background: linear-gradient(to top, rgba(10, 10, 15, 0.9), transparent);
     opacity: 0;
     transition: opacity 0.3s;
-    display: flex; align-items: flex-end; padding: 1rem;
+    display: flex;
+    align-items: flex-end;
+    padding: 1rem;
   }
-  .project-card-full:hover .project-overlay { opacity: 1; }
+
+  .project-card-full:hover .project-overlay {
+    opacity: 1;
+  }
+
   .filter-btn {
     background: transparent;
     border: 1px solid var(--border);
@@ -47,10 +70,27 @@
     text-decoration: none;
     display: inline-block;
   }
-  .filter-btn:hover, .filter-btn.active {
+
+  .filter-btn:hover,
+  .filter-btn.active {
     background: linear-gradient(135deg, var(--primary), #8B5CF6);
     color: white;
     border-color: transparent;
+  }
+
+  .status-completed {
+    background: rgba(0, 200, 83, 0.15);
+    color: #00C853;
+  }
+
+  .status-ongoing {
+    background: rgba(255, 171, 0, 0.15);
+    color: #FFAB00;
+  }
+
+  .status-concept {
+    background: rgba(108, 99, 255, 0.15);
+    color: var(--primary);
   }
 
   /* ── Mobile responsive ── */
@@ -58,11 +98,13 @@
     .project-img-wrap {
       height: 180px;
     }
+
     .filter-btn {
       padding: 8px 16px;
       font-size: 0.85rem;
     }
   }
+
   @media (max-width: 767.98px) {
     .project-img-wrap {
       height: 200px;
@@ -85,7 +127,8 @@
     <!-- Filters -->
     <div class="d-flex flex-wrap justify-content-center gap-2 mb-5" data-aos="fade-up">
       <a href="{% url 'projects' %}" class="filter-btn {% if filter_status == 'all' %}active{% endif %}">All</a>
-      <a href="?filter=completed" class="filter-btn {% if filter_status == 'completed' %}active{% endif %}">Completed</a>
+      <a href="?filter=completed"
+        class="filter-btn {% if filter_status == 'completed' %}active{% endif %}">Completed</a>
       <a href="?filter=ongoing" class="filter-btn {% if filter_status == 'ongoing' %}active{% endif %}">Ongoing</a>
       <a href="?filter=concept" class="filter-btn {% if filter_status == 'concept' %}active{% endif %}">Concept</a>
     </div>
@@ -117,7 +160,8 @@
           </div>
           <div class="p-4">
             <div class="d-flex flex-wrap gap-2 mb-2">
-              <span class="badge rounded-pill" style="background:{% if project.status == 'completed' %}rgba(0,200,83,0.15);color:#00C853{% elif project.status == 'ongoing' %}rgba(255,171,0,0.15);color:#FFAB00{% else %}rgba(108,99,255,0.15);color:var(--primary){% endif %}">
+              <span
+                class="badge rounded-pill {% if project.status == 'completed' %}status-completed{% elif project.status == 'ongoing' %}status-ongoing{% else %}status-concept{% endif %}">
                 {{ project.get_status_display }}
               </span>
               {% if project.featured %}

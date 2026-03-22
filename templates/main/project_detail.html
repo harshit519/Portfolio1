@@ -3,6 +3,21 @@
 
 {% block extra_css %}
 <style>
+  .status-completed {
+    background: rgba(0,200,83,0.15);
+    color: #00C853;
+    border: 1px solid rgba(0,200,83,0.3);
+  }
+  .status-ongoing {
+    background: rgba(255,171,0,0.15);
+    color: #FFAB00;
+    border: 1px solid rgba(255,171,0,0.3);
+  }
+  .status-default {
+    background: rgba(108,99,255,0.15);
+    color: var(--primary);
+    border: 1px solid var(--border);
+  }
   @media (max-width: 575.98px) {
     .project-detail-img {
       max-height: 220px !important;
@@ -30,7 +45,7 @@
       <i class="bi bi-arrow-left me-1"></i> Back to Projects
     </a>
     <div class="d-flex flex-wrap align-items-center gap-3 mb-2">
-      <span class="badge rounded-pill px-3 py-2" style="background:{% if project.status == 'completed' %}rgba(0,200,83,0.15);color:#00C853;border:1px solid rgba(0,200,83,0.3){% elif project.status == 'ongoing' %}rgba(255,171,0,0.15);color:#FFAB00;border:1px solid rgba(255,171,0,0.3){% else %}rgba(108,99,255,0.15);color:var(--primary);border:1px solid var(--border){% endif %}">
+      <span class="badge rounded-pill px-3 py-2 {% if project.status == 'completed' %}status-completed{% elif project.status == 'ongoing' %}status-ongoing{% else %}status-default{% endif %}">
         {{ project.get_status_display }}
       </span>
       {% if project.featured %}<span class="badge rounded-pill px-3 py-2" style="background:rgba(255,101,132,0.15);color:var(--accent);border:1px solid rgba(255,101,132,0.3)"><i class="bi bi-star-fill me-1"></i>Featured</span>{% endif %}
