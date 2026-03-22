@@ -93,107 +93,166 @@
       word-wrap: break-word;
     }
 
-    /* ── Resume Banner ── */
-    .resume-banner {
-      background: linear-gradient(90deg, #1a1040, #12121A, #1a1040);
-      border-bottom: 1px solid rgba(108, 99, 255, 0.35);
-      padding: 9px 0;
+    /* ── Resume Tray (slides below navbar) ── */
+    .resume-tray {
       position: fixed;
       top: 0;
       left: 0;
       right: 0;
-      z-index: 1100;
-      animation: bannerSlide 0.6s ease-out;
+      z-index: 1040;
+      background: linear-gradient(135deg, rgba(18, 18, 26, 0.98), rgba(26, 16, 64, 0.95));
+      -webkit-backdrop-filter: blur(20px);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(108, 99, 255, 0.3);
+      padding: 1rem 0;
+      -webkit-transform: translateY(-100%);
+      transform: translateY(-100%);
+      -webkit-transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+      transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+      opacity: 0;
+      pointer-events: none;
     }
-
-    @keyframes bannerSlide {
-      from {
-        transform: translateY(-100%);
-        opacity: 0;
-      }
-
-      to {
-        transform: translateY(0);
-        opacity: 1;
-      }
+    .resume-tray.open {
+      -webkit-transform: translateY(0);
+      transform: translateY(0);
+      opacity: 1;
+      pointer-events: auto;
     }
-
-    .resume-banner .inner {
+    .resume-tray-inner {
+      display: -webkit-flex;
       display: flex;
+      -webkit-align-items: center;
       align-items: center;
+      -webkit-justify-content: center;
       justify-content: center;
-      gap: 14px;
+      gap: 16px;
+      -webkit-flex-wrap: wrap;
       flex-wrap: wrap;
     }
-
-    .resume-banner .label {
-      font-size: 0.82rem;
-      color: #B0B8D0;
-      font-weight: 500;
-      letter-spacing: 0.3px;
+    .resume-tray-icon {
+      width: 48px; height: 48px;
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      border-radius: 14px;
+      display: -webkit-flex; display: flex;
+      -webkit-align-items: center; align-items: center;
+      -webkit-justify-content: center; justify-content: center;
+      font-size: 1.3rem;
+      color: #fff;
+      -webkit-flex-shrink: 0;
+      flex-shrink: 0;
     }
-
-    .resume-banner .label strong {
-      color: #E8E8F0;
-    }
-
-    .resume-btn-view {
+    .resume-tray-btn {
+      display: -webkit-inline-flex;
       display: inline-flex;
+      -webkit-align-items: center;
       align-items: center;
-      gap: 6px;
+      gap: 8px;
+      border-radius: 50px;
+      padding: 10px 24px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      text-decoration: none;
+      -webkit-transition: all 0.3s;
+      transition: all 0.3s;
+      min-height: 44px;
+    }
+    .resume-tray-btn.primary {
       background: linear-gradient(135deg, var(--primary), #8B5CF6);
       color: #fff !important;
-      border-radius: 50px;
-      padding: 4px 16px;
-      font-size: 0.78rem;
-      font-weight: 600;
-      text-decoration: none;
-      transition: all 0.3s;
       border: none;
     }
-
-    .resume-btn-view:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 6px 20px rgba(108, 99, 255, 0.45);
+    .resume-tray-btn.primary:hover {
+      -webkit-box-shadow: 0 8px 24px rgba(108, 99, 255, 0.4);
+      box-shadow: 0 8px 24px rgba(108, 99, 255, 0.4);
     }
-
-    .resume-btn-dl {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
+    .resume-tray-btn.outline {
       background: transparent;
       color: var(--primary) !important;
-      border: 1px solid rgba(108, 99, 255, 0.5);
-      border-radius: 50px;
-      padding: 4px 14px;
-      font-size: 0.78rem;
-      font-weight: 600;
-      text-decoration: none;
-      transition: all 0.3s;
+      border: 1px solid rgba(108, 99, 255, 0.4);
     }
-
-    .resume-btn-dl:hover {
-      background: rgba(108, 99, 255, 0.15);
-      transform: translateY(-1px);
+    .resume-tray-btn.outline:hover {
+      background: rgba(108, 99, 255, 0.12);
     }
-
-    .resume-banner .close-banner {
+    .resume-tray-close {
       position: absolute;
       right: 16px;
       top: 50%;
+      -webkit-transform: translateY(-50%);
       transform: translateY(-50%);
       background: none;
       border: none;
       color: var(--text-muted);
-      font-size: 1rem;
+      font-size: 1.1rem;
       cursor: pointer;
-      line-height: 1;
-      padding: 4px;
+      padding: 8px;
+      -webkit-transition: color 0.2s;
       transition: color 0.2s;
+      min-width: 44px;
+      min-height: 44px;
+      display: -webkit-flex; display: flex;
+      -webkit-align-items: center; align-items: center;
+      -webkit-justify-content: center; justify-content: center;
+    }
+    .resume-tray-close:hover {
+      color: #fff;
+    }
+    .resume-tray-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.4);
+      z-index: 1039;
+      opacity: 0;
+      pointer-events: none;
+      -webkit-transition: opacity 0.3s;
+      transition: opacity 0.3s;
+    }
+    .resume-tray-overlay.open {
+      opacity: 1;
+      pointer-events: auto;
     }
 
-    .resume-banner .close-banner:hover {
-      color: #fff;
+    /* Navbar resume button pulse indicator */
+    .nav-resume-btn {
+      position: relative;
+    }
+    .nav-resume-btn::before {
+      content: '';
+      position: absolute;
+      top: 6px;
+      right: 6px;
+      width: 8px;
+      height: 8px;
+      background: #00C853;
+      border-radius: 50%;
+      -webkit-animation: resumePulse 2s ease-in-out infinite;
+      animation: resumePulse 2s ease-in-out infinite;
+    }
+    @-webkit-keyframes resumePulse {
+      0%, 100% { opacity: 1; -webkit-transform: scale(1); }
+      50% { opacity: 0.5; -webkit-transform: scale(1.4); }
+    }
+    @keyframes resumePulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(1.4); }
+    }
+
+    @media (max-width: 575.98px) {
+      .resume-tray-inner {
+        -webkit-flex-direction: column;
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
+        padding: 0 40px;
+      }
+      .resume-tray-btn {
+        width: 100%;
+        -webkit-justify-content: center;
+        justify-content: center;
+        padding: 10px 20px;
+      }
+      .resume-tray-icon {
+        width: 40px; height: 40px;
+      }
     }
 
     /* ── Navbar ── */
@@ -533,22 +592,6 @@
 
     /* ── Extra Small: Phones Portrait (<= 576px) ── */
     @media (max-width: 575.98px) {
-      .resume-banner .inner {
-        flex-direction: column;
-        gap: 8px;
-        text-align: center;
-        padding: 0 36px 0 8px;
-      }
-      .resume-banner .label {
-        font-size: 0.72rem;
-      }
-      .resume-btn-view, .resume-btn-dl {
-        font-size: 0.72rem;
-        padding: 4px 12px;
-      }
-      .resume-banner .close-banner {
-        right: 8px;
-      }
       .navbar-brand {
         font-size: 1.25rem;
       }
@@ -686,7 +729,7 @@
 
     /* ── Print styles ── */
     @media print {
-      .navbar, .resume-banner, footer, .btn {
+      .navbar, .resume-tray, .resume-tray-overlay, footer, .btn {
         display: none !important;
       }
       body {
@@ -724,23 +767,28 @@
 <body>
 
   {% if profile and profile.resume %}
-  <!-- ══ RESUME BANNER ══ -->
-  <div class="resume-banner" id="resumeBanner">
+  <!-- ══ RESUME TRAY (hidden by default, toggled by navbar button) ══ -->
+  <div class="resume-tray-overlay" id="resumeOverlay"></div>
+  <div class="resume-tray" id="resumeTray">
     <div class="container position-relative">
-      <div class="inner">
-        <span class="label">
-          <i class="bi bi-file-earmark-person-fill me-1" style="color:var(--primary)"></i>
-          <strong>{{ profile.name|default:"Harshit Tiwari" }}'s Resume</strong>
-          &nbsp;is available
-        </span>
-        <a href="{{ profile.resume.url }}" class="resume-btn-view" target="_blank" rel="noopener">
-          <i class="bi bi-eye-fill"></i> View Resume
-        </a>
-        <a href="{{ profile.resume.url }}" class="resume-btn-dl" download>
-          <i class="bi bi-download"></i> Download PDF
-        </a>
+      <div class="resume-tray-inner">
+        <div class="resume-tray-icon">
+          <i class="bi bi-file-earmark-person-fill"></i>
+        </div>
+        <div class="text-center text-sm-start">
+          <div class="fw-bold" style="color:#E8E8F0;font-size:0.95rem">{{ profile.name|default:"Harshit Tiwari" }}'s Resume</div>
+          <div style="color:var(--text-muted);font-size:0.78rem">Ready to view or download</div>
+        </div>
+        <div class="d-flex gap-2 flex-wrap justify-content-center">
+          <a href="{{ profile.resume.url }}" class="resume-tray-btn primary" target="_blank" rel="noopener">
+            <i class="bi bi-eye-fill"></i> View Resume
+          </a>
+          <a href="{{ profile.resume.url }}" class="resume-tray-btn outline" download>
+            <i class="bi bi-download"></i> Download PDF
+          </a>
+        </div>
       </div>
-      <button class="close-banner" id="closeBanner" aria-label="Close">
+      <button class="resume-tray-close" id="resumeTrayClose" aria-label="Close">
         <i class="bi bi-x-lg"></i>
       </button>
     </div>
@@ -779,9 +827,9 @@
               href="{% url 'contact' %}">Contact</a></li>
         </ul>
         {% if profile and profile.resume %}
-        <a href="{{ profile.resume.url }}" class="btn btn-primary btn-sm ms-3 px-4" target="_blank">
+        <button class="btn btn-primary btn-sm ms-3 px-4 nav-resume-btn" id="navResumeToggle" type="button">
           <i class="bi bi-file-earmark-text me-1"></i>Resume
-        </a>
+        </button>
         {% endif %}
       </div>
     </div>
@@ -858,36 +906,57 @@
       disable: prefersReducedMotion ? true : false
     });
 
-    // ── Resume banner + navbar offset ──
-    var banner = document.getElementById('resumeBanner');
-    var closeBtn = document.getElementById('closeBanner');
+    // ── Navbar stays at top: 0 always ──
     var nav = document.getElementById('mainNav');
     var main = document.getElementById('mainContent');
 
-    function setOffsets() {
-      var bh = banner && banner.offsetParent !== null ? banner.offsetHeight : 0;
+    function setNavOffset() {
       var nh = nav ? nav.offsetHeight : 0;
-      if (nav) nav.style.top = bh + 'px';
-      if (main) main.style.paddingTop = (bh + nh) + 'px';
+      if (main) main.style.paddingTop = nh + 'px';
     }
-    setOffsets();
-    // Recalculate on resize AND orientation change (important for mobile)
-    window.addEventListener('resize', setOffsets);
+    setNavOffset();
+    window.addEventListener('resize', setNavOffset);
     window.addEventListener('orientationchange', function() {
-      setTimeout(setOffsets, 100);
+      setTimeout(setNavOffset, 100);
     });
 
-    if (closeBtn) {
-      closeBtn.addEventListener('click', function() {
-        banner.style.transition = 'opacity 0.3s, transform 0.3s';
-        banner.style.opacity = '0';
-        banner.style.transform = 'translateY(-100%)';
-        banner.style.webkitTransform = 'translateY(-100%)';
-        setTimeout(function() {
-          banner.style.display = 'none';
-          setOffsets();
-        }, 300);
+    // ── Resume Tray toggle ──
+    var resumeTray = document.getElementById('resumeTray');
+    var resumeOverlay = document.getElementById('resumeOverlay');
+    var resumeToggle = document.getElementById('navResumeToggle');
+    var resumeClose = document.getElementById('resumeTrayClose');
+
+    function openResumeTray() {
+      if (!resumeTray) return;
+      // Position tray below navbar
+      var nh = nav ? nav.offsetHeight : 0;
+      resumeTray.style.top = nh + 'px';
+      resumeTray.classList.add('open');
+      if (resumeOverlay) {
+        resumeOverlay.style.top = nh + 'px';
+        resumeOverlay.classList.add('open');
+      }
+    }
+    function closeResumeTray() {
+      if (!resumeTray) return;
+      resumeTray.classList.remove('open');
+      if (resumeOverlay) resumeOverlay.classList.remove('open');
+    }
+
+    if (resumeToggle) {
+      resumeToggle.addEventListener('click', function() {
+        if (resumeTray && resumeTray.classList.contains('open')) {
+          closeResumeTray();
+        } else {
+          openResumeTray();
+        }
       });
+    }
+    if (resumeClose) {
+      resumeClose.addEventListener('click', closeResumeTray);
+    }
+    if (resumeOverlay) {
+      resumeOverlay.addEventListener('click', closeResumeTray);
     }
 
     // ── Close mobile navbar on link click ──
