@@ -662,7 +662,9 @@
       const observer = new IntersectionObserver(entries => {
         entries.forEach(e => {
           if (e.isIntersecting) {
-            const cu = new countUp.CountUp(el, parseInt(el.getAttribute('data-count')), { duration: 2.5 });
+            const opts = { duration: 2.5 };
+            if (el.getAttribute('data-suffix')) opts.suffix = el.getAttribute('data-suffix');
+            const cu = new countUp.CountUp(el, parseInt(el.getAttribute('data-count')), opts);
             cu.start();
             observer.unobserve(el);
           }

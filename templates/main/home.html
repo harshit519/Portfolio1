@@ -351,19 +351,19 @@
     <div class="row g-3 justify-content-center">
       {% if profile.years_experience > 0 %}
       <div class="col-6 col-md-3" data-aos="zoom-in" data-aos-delay="0">
-        <div class="stat-card"><div class="stat-number" data-count="{{ profile.years_experience }}">0</div><div class="small" style="color:var(--text-muted)">Years Exp.</div></div>
+        <div class="stat-card"><div class="stat-number" data-count="{{ profile.years_experience }}" data-suffix="+">0</div><div class="small" style="color:var(--text-muted)">Years Exp.</div></div>
       </div>
       {% endif %}
       <div class="col-6 col-md-3" data-aos="zoom-in" data-aos-delay="100">
-        <div class="stat-card"><div class="stat-number" data-count="{{ profile.projects_done }}">0</div><div class="small" style="color:var(--text-muted)">Projects Done</div></div>
+        <div class="stat-card"><div class="stat-number" data-count="{{ profile.projects_done }}" data-suffix="+">0</div><div class="small" style="color:var(--text-muted)">Projects Done</div></div>
       </div>
       {% if profile.clients > 0 %}
       <div class="col-6 col-md-3" data-aos="zoom-in" data-aos-delay="200">
-        <div class="stat-card"><div class="stat-number" data-count="{{ profile.clients }}">0</div><div class="small" style="color:var(--text-muted)">Happy Clients</div></div>
+        <div class="stat-card"><div class="stat-number" data-count="{{ profile.clients }}" data-suffix="+">0</div><div class="small" style="color:var(--text-muted)">Happy Clients</div></div>
       </div>
       {% endif %}
       <div class="col-6 col-md-3" data-aos="zoom-in" data-aos-delay="300">
-        <div class="stat-card"><div class="stat-number" data-count="{{ total_skills }}">0</div><div class="small" style="color:var(--text-muted)">Skills</div></div>
+        <div class="stat-card"><div class="stat-number" data-count="{{ total_skills }}" data-suffix="+">0</div><div class="small" style="color:var(--text-muted)">Skills</div></div>
       </div>
     </div>
   </div>
