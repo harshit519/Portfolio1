@@ -89,6 +89,9 @@ yarn-error.log
 # ===== Logs =====
 logs/
 
+# ===== Claude =====
+CLAUDE.md
+
 # ===== Secrets =====
 secrets/
 *.pem
